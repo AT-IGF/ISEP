@@ -1,0 +1,1 @@
+from .NameOf import nameof

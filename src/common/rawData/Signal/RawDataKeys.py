@@ -1,0 +1,5 @@
+VAL_SCATTERING = "Scattering"
+VAL_SCATTERING_IMAGE = "Image"
+VAL_SPECTROMETER = "Spectrometer"
+VAL_LIFETIME = "Lifetime"
+VAL_TIMESTAMP = "Timestamp"

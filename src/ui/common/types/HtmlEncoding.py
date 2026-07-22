@@ -1,0 +1,2 @@
+LOWER = "&lt;"
+HIGHER = "&gt;"

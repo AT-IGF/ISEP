@@ -1,0 +1,65 @@
+{
+    "Alnus": [
+        2,
+        3,
+        4
+    ],
+    "ArrhinateRum": [
+        5,
+        6,
+        7
+    ],
+    "Brussonetta": [
+        4,
+        5
+    ],
+    "Corylus": [
+        1,
+        2,
+        3
+    ],
+    "Dactylus": [
+        5,
+        6,
+        7
+    ],
+    "Fraxinus": [
+        2,
+        3
+    ],
+    "Juglans": [
+        5,
+        6,
+        7
+    ],
+    "LolliumPerene": [
+        5,
+        6,
+        7,
+        8
+    ],
+    "Morus": [
+        4,
+        5
+    ],
+    "PinusNigra": [
+        5,
+        6
+    ],
+    "Platanus": [
+        4
+    ],
+    "PopulusAlba": [
+        2,
+        3,
+        4
+    ],
+    "Quercus": [
+        4,
+        5
+    ],
+    "Taxus": [
+        2,
+        3
+    ]
+}

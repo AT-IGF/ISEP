@@ -1,0 +1,67 @@
+{
+    "configurations": [
+        {
+            "name": "UI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.ui.UI",
+            "justMyCode": false
+        },
+        {
+            "name": "Model builder unsupervised",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.modelBuilder.ModelBuilderUnsupervided",
+            "justMyCode": false
+        },
+        {
+            "name": "Model builder data scaler",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.modelBuilder.ModelBuilderDataScaler",
+            "justMyCode": false
+        },
+        {
+            "name": "Model builder",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.modelBuilder.ModelBuilder",
+            "justMyCode": true
+        },
+        {
+            "name": "Data viewer",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.dataViewer.DataViewer",
+            "justMyCode": true
+        },
+        {
+            "name": "AllParticlesAvgs",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.dataViewer.AllParticlesAvgs",
+            "justMyCode": true
+        },
+        {
+            "name": "Model runner",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.modelRunner.ModelRunner",
+            "justMyCode": true
+        },
+        {
+            "name": "Predictions mapper",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.predictionsMapper.PredictionsMapper",
+            "justMyCode": false
+        },
+        {
+            "name": "Sample: Pkl mapper",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "sample.pklConverter.PklConverter",
+            "justMyCode": false
+        }
+    ]
+}

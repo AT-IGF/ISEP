@@ -1,0 +1,16 @@
+dacite==1.8.1
+h5py==3.13.0
+hdbscan==0.8.39
+joblib==1.4.2
+matplotlib==3.10.8
+netCDF4==1.7.4
+PyQt5==5.15.11
+QtAwesome==1.2.2
+scikit_learn==1.6.1
+scipy==1.17.1
+seaborn==0.13.2
+umap_learn==0.5.7
+varname==0.15.1
+tensorflow==2.16.1
+pandas>=2.0.3
+keras==3.9.2
