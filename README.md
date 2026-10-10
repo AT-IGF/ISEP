@@ -37,6 +37,19 @@ Rest of required packages is given in <i>requirements.txt</i> and will be instal
 #### <span style="color: lightblue">*Running compiled executable (.exe)*</span>
 runs standalone, no additional installation required
 
+## How to run (pypi)
+[![PyPI version](https://img.shields.io/pypi/v/ISEP)](https://pypi.org/project/ISEP/)
+
+Install
+```pwsh
+pip install ISEP
+```
+Run UI
+
+```pwsh
+python -m src.ui.UI
+```
+
 ## How to run (from source)
 1. Install [Requirements](#requirements)
 2. Check if pip is installed (should return version):

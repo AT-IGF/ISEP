@@ -1,0 +1,47 @@
+
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ISEP"
+version = "1.0.0"
+requires-python = ">=3.11,<3.13"
+description = "Library created for handling Rapid-E input files"
+readme = "README.md"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Artur Tomczak", email = "Artur.Tomczak@fuw.edu.pl" }
+]
+maintainers = [
+    { name = "Artur Tomczak", email = "Artur.Tomczak@fuw.edu.pl" }
+]
+keywords = [
+    "Rapid-E",
+    "particle analysis",
+    "machine learning",
+    "data analysis"
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/AT-IGF/ISEP"
+Repository = "https://github.com/AT-IGF/ISEP"
+Issues = "https://github.com/AT-IGF/ISEP/issues"
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src", "resources"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "src",
+    "resources",
+    "README.md",
+    "requirements.txt",
+    "pyproject.toml",
+    "LICENSE"
+]
