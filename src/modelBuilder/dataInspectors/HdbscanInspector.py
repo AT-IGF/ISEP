@@ -428,6 +428,9 @@ def run(
         umap_id = umap_metadata["id"]
         UMAP_ID = f"-{umap_id}_umap_id"
         SAMPLE_RATIO = umap_metadata["sample_ratio"]
+    else:
+        UMAP_ID = ""
+        SAMPLE_RATIO = 0.5
 
     path_prefix = get_path_prefix()
     clusterer_plot_path = path_prefix + "_preds_lot.png"
@@ -440,7 +443,7 @@ def run(
     # else:
     #     print("missing")
     #     return
-    components_before_pca = len(embeddings[0])
+    components_before_pca = len(umap_embeddings[0])
     if components_before_pca >= 50:
         logging.getLogger().warning(
             f"PCA - embeddings has more than 50 components. It will drastically increase hdbscan training time (different calculation method above 50 dimensions), count={len(embeddings[0])} (before: {components_before_pca})"

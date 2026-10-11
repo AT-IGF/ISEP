@@ -171,6 +171,11 @@ def get_threshold_particles_between_timespan(
         frame_sum = np.sum(frames, axis=0).tolist()
         frame = [from_time, to_time] + frame_sum
         frames_by_span.append(frame)
+    else:
+        frame_sum = np.sum(frames, axis=0).tolist()
+        frame = [from_time, frame_max_time] + frame_sum
+        frames_by_span.append(frame)
+        
 
     return frames_by_span
 

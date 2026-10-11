@@ -4,7 +4,7 @@ from src.core import ConfigModelBase, PathHelper
 from src.common import Consts
 
 
-@dataclass(frozen=True)
+@dataclass()
 class PathsConfig(ConfigModelBase):
     zip_files_rel_path: str | None = None
     config_prop_name = "paths"

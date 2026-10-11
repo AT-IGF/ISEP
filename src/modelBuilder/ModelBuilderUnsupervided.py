@@ -400,7 +400,7 @@ def verify_model(keras_trainer: KerasUnsupervisedTrainer):
                 "labels": latent_vectors_y,
                 "pollen_indexes_dict": pollen_indexes_dict,
                 "binary_paths": binary_paths,
-                "id": int(time.time()),
+                "id": int(time.time()) if config.cluster_parameters.run_umap() else None,
                 "paths": latent_vectors_paths,
                 "paths_indexes_dict": paths_indexes_dict,
             }

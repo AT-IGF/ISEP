@@ -2,7 +2,6 @@
 /resources/dataViewer/plots
 **/__pycache__/**.*.pyc
 /.idea/
-resources/**/logs/*.log
 **.log
 **.h5
 resources/**/*.zip
@@ -21,3 +20,4 @@ resources/modelBuilder/unsupervised/checkpoints/
 **.joblib
 **.keras
 !resources/ui/icons/**/*.png
+!/tests/end_to_end/resources/**

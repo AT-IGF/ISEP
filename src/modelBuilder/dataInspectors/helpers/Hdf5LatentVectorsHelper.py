@@ -21,7 +21,6 @@ def get_latent_vector_file_path(binary_paths_len: int):
         config.model_save_name
         + f"-_reg{anomaly}-{binary_paths_len}dirs_latent_vectors.h5"
     )
-    filename = "unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-_reg-57dirs_latent_vectors.h5"
 
     return PathHelper.join_path(config.get_latent_vectors_path(), filename)
 

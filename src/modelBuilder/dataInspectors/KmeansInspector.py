@@ -50,8 +50,9 @@ def run_kmeans(latent_vectors, labels, name, color_label_map={}):
         file=f"{name}-2cl-kmeans.joblib",
     )
 
-    davies_bouldin = davies_bouldin_score(latent_vectors, predicted_labels)
-    logging.getLogger().info(f"Davies-Bouldin score: {davies_bouldin}")
+    if n_clusters > 1:
+        davies_bouldin = davies_bouldin_score(latent_vectors, predicted_labels)
+        logging.getLogger().info(f"Davies-Bouldin score: {davies_bouldin}")
 
     plot(latent_vectors, kmeans, known_mask, labels, color_label_map)
 

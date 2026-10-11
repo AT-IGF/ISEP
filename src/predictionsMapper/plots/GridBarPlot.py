@@ -68,6 +68,7 @@ class GridBarPlot:
             ncols=self.n_cols,
             figsize=(12, 4),
             sharex=True,
+            squeeze=False
         )
         
         # for ax in axes.flat[len(data_to_show.columns):]:

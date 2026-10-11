@@ -2,6 +2,7 @@ from contextlib import contextmanager
 import io
 import logging
 import os
+from pathlib import Path
 import numpy as np
 from src.common.config import Config
 from src.common.config.configs import ModelBuilderUnsupervisedConfig
@@ -200,7 +201,7 @@ def get_paths(name):
     csv_path = f"{umap_file_path}/{name}-umap.csv"
     latent_id = ""
     if LATENT_ID is not None:
-        latent_id = f"-{LATENT_ID}_latent_id"
+        latent_id = f"{LATENT_ID}_latent_id"
     output_metric = ""
     if OUTPUT_METRIC is not None:
         output_metric = f"-{OUTPUT_METRIC}_out_m"
@@ -208,7 +209,7 @@ def get_paths(name):
     if TARGET_ENABLED == True:
         target_enabled = f"-{str(TARGET_ENABLED)}te"
 
-    recuder_prefix = f"{umap_file_path}{latent_id}-{PRE_UMAP_NORMALIZATION}_pre_norm-{str(SAMPLE_RATIO).replace('.', '_')}sr-{METRIC}_m-{TARGET_METRIC}_tm{output_metric}{target_enabled}-{str(TARGET_WEIGHT).replace('.', '_')}tw-{str(MIN_DIST).replace('.', '_')}md-{str(SPREAD).replace('.', '_')}_sp-{N_NEIGHBORS}n-{N_COMPONENTS}D"
+    recuder_prefix = f"{umap_file_path}/{latent_id}-{PRE_UMAP_NORMALIZATION}_pre_norm-{str(SAMPLE_RATIO).replace('.', '_')}sr-{METRIC}_m-{TARGET_METRIC}_tm{output_metric}{target_enabled}-{str(TARGET_WEIGHT).replace('.', '_')}tw-{str(MIN_DIST).replace('.', '_')}md-{str(SPREAD).replace('.', '_')}_sp-{N_NEIGHBORS}n-{N_COMPONENTS}D"
     reducer_path = f"{recuder_prefix}-umap.pk1"
     embeddings_path = f"{recuder_prefix}-umap-embeddings.h5"
     plot_path = f"{recuder_prefix}-umap-plot.png"
@@ -280,6 +281,12 @@ def capture_umap_output():
     finally:
         sys.stdout = old
 
+def get_test_size(latent_vectors):
+    n = len(latent_vectors)
+
+    if n < 2:
+        raise ValueError("At least 2 samples are required")
+    return  2500 if n > 2500 else max(1, int(n * 0.2))
 
 def run_umap(latent_vectors, labels, name, color_label_map={}, plot=True):
     latent_vectors = normalize_data(
@@ -291,7 +298,7 @@ def run_umap(latent_vectors, labels, name, color_label_map={}, plot=True):
             latent_vectors,
             labels,
             random_state=42,
-            train_size=1 - 2500 / len(latent_vectors),
+            test_size=get_test_size(latent_vectors),
         )
     )
     paths = get_paths(name=name)
@@ -325,6 +332,7 @@ def run_umap(latent_vectors, labels, name, color_label_map={}, plot=True):
                 reducer.fit(X=latent_vectors_train)
 
             logging.getLogger().info(f"Saving umap")
+            Path(reducer_path).parent.mkdir(parents=True, exist_ok=True)
             joblib.dump(reducer, reducer_path)
             logging.getLogger().info(f"Umap saved under path={reducer_path}")
             metadata = {

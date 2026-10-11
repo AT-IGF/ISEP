@@ -213,9 +213,13 @@ class PrecRecallSummary:
             else:
                 return
         self._logger.info("\n%s", df)
-        self._logger.info(
-            f"Threshold mapping: {json.dumps(df.set_index('label')['threshold'].to_dict())}"
+        threshold_mapping = json.dumps(
+            df.set_index("label")["threshold"].to_dict(),
+            default=lambda x: x.tolist() if isinstance(x.tolist(), list) else [x.tolist()],
         )
+
+        self._logger.info(f"Threshold mapping: {threshold_mapping}")
+        
         if mode == self.F1_MODE:
             f1s_mean = np.mean(f1s, axis=0)
             plt.plot(

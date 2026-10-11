@@ -45,3 +45,7 @@ only-include = [
     "pyproject.toml",
     "LICENSE"
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"

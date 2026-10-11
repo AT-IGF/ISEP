@@ -268,6 +268,7 @@ def hist_lifetime(lifetimes, types):
             )
         if hist.display_mode == hist.ALL_IN_ONE_MODE:
             if not hist.is_display_as_grid():
+                plt.title(f"Fluorescence lifetime histogram {channels[i]} [AU]")
                 plt.xlabel(f"Fluorescence amplitude {channels[i]} [AU]")
                 plt.ylabel("Number of samples")
                 handles, labels = plt.gca().get_legend_handles_labels()

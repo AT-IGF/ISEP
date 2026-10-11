@@ -5,7 +5,7 @@ from src.core import ConfigModelBase, PathHelper, ListHelper
 from src.common import Consts
 
 
-@dataclass(frozen=True)
+@dataclass()
 class TypesConfig(ConfigModelBase):
     pollen_types: list[str] = field(default_factory=list)
     config_prop_name = "types"
