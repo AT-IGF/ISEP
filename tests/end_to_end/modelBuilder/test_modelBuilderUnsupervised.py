@@ -429,7 +429,7 @@ def test_handle_when_run_clustering_true_with_known_sample_and_without_umap_give
      assert_files(hdbscan_files_path, hdbscan_files)
      assert_files(mini_batch_kmeans_files_path, mini_batch_kmeans_files)
      assert_files(kmeans_files_path, kmeans_files)
-     
+
 def assert_files(path, expected_files, extension="*"):
     actual_files = {
         file.name
@@ -437,4 +437,4 @@ def assert_files(path, expected_files, extension="*"):
         if file.is_file()
     }
 
-    assert actual_files == set(expected_files)
+    assert sorted(actual_files) == sorted(set(expected_files))

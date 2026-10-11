@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ISEP"
-version = "1.0.0"
+version = "1.0.1"
 requires-python = ">=3.11,<3.13"
 description = "Library created for handling Rapid-E input files"
 readme = "README.md"
@@ -48,4 +48,4 @@ only-include = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-v"
+addopts = "-v -ra"

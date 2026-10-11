@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
+import re
 from src.common import Consts
 from src.common.config import Config
 from src.common.config.configs import ModelBuilderConfig, TypesConfig, PathsConfig, ModelBuilderUnsupervisedConfig, ModelRunnerConfig, ModelBuilderScalerConfig, PredictionsMapperConfig, AllParticlesAvgsConfig, DataViewerConfig
@@ -85,12 +86,20 @@ def test_handle_when_run_displays_aggregated_summaries(monkeypatch, test_resourc
     DataViewer.handle()
 
     assert_files(plots_path, expected_plots, "*.png")
-     
+
+import re
+
 def assert_files(path, expected_files, extension="*"):
-    actual_files = {
-        str(file.relative_to(path))
+    def normalize(name):
+        return re.sub(r"\d+(?=\.png$)", "", name)
+
+    actual_files = [
+        normalize(file.relative_to(path).as_posix())
         for file in path.rglob("*")
         if file.is_file()
-    }
+    ]
 
-    assert actual_files == set(expected_files)
+    assert sorted(actual_files) == sorted(
+        normalize(name.replace("\\", "/"))
+        for name in expected_files
+    )

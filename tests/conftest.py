@@ -11,26 +11,18 @@ os.environ["MPLBACKEND"] = "Agg"
 from pathlib import Path
 import shutil
 import pytest
-
+import logging
 
 @pytest.fixture
-def test_resources():
+def test_resources(tmp_path):
     base_path = Path(__file__).resolve().parent / "end_to_end"
 
     source_resources = base_path / "resources"
-    generated_resources = base_path / "generated"
-
-    if generated_resources.exists():
-        shutil.rmtree(generated_resources)
-    assert not generated_resources.exists()
+    generated_resources = tmp_path / "generated"
 
     shutil.copytree(source_resources, generated_resources)
 
     yield generated_resources
-
-    shutil.rmtree(generated_resources)
-    assert not generated_resources.exists()
-        
         
 @pytest.fixture(autouse=True)
 def save_matplotlib_plots(monkeypatch, test_resources):
