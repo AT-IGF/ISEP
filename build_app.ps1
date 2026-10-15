@@ -5,7 +5,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $ENV_NAME = "myenv"
-$OUTPUT_DIR = "dist"
+$OUTPUT_DIR = "dist-exe"
 $APP_NAME = "ISEP"
 
 # Activate conda environment
