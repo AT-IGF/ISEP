@@ -21,3 +21,8 @@ resources/modelBuilder/unsupervised/checkpoints/
 **.keras
 !resources/ui/icons/**/*.png
 !/tests/end_to_end/resources/**
+.venv-check/*
+.venv-release/*
+docs/api/*
+docs/_build/
+ISEP.zip
