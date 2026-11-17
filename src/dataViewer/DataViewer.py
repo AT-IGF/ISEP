@@ -30,7 +30,7 @@ def plot_spectrum(
     show=True,
     reshape=False,
     linestyle="-",
-    colors=None
+    colors=None,
 ):
     plt.rcParams.update({"font.size": 24})
     if reshape:
@@ -58,7 +58,7 @@ def plot_spectrum(
         )
         mkdirs_if_not_exists(path)
         plt.savefig(f"{path}/{pollen_type}{idx}")
-    plt.grid(True, linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+    plt.grid(True, linestyle="--", linewidth=0.6, alpha=0.4, color="gray")
     if colors != None:
         plt.gca().set_prop_cycle(color=colors)
     if show == True:
@@ -105,7 +105,7 @@ def plot_lifetime(
         )
         mkdirs_if_not_exists(path)
         plt.savefig(f"{path}/{pollen_type}{idx}")
-    plt.grid(True, linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+    plt.grid(True, linestyle="--", linewidth=0.6, alpha=0.4, color="gray")
     if colors != None:
         plt.gca().set_prop_cycle(color=colors)
     if show == True:
@@ -198,11 +198,11 @@ def plot_data(config: DataViewerConfig, raw_data: list[RawData]):
     counter = Counter()
 
     logger.info(
-        f"Random pickup frequency is set to={config.rand_0_1_frequency}. Value range=[0-1], 0-every particle, 0.5-every 2nd, etc."
+        f"Random pickup frequency is set to={config.rand_0_1_frequency}. Probability of plotting a particle after 'same_type_count' is reached: 0 - none, 1 - all."
     )
     logger.info(f"Same type particles to show count = {config.same_type_count}")
     for idx, temp_sample in enumerate(raw_data):
-        if idx % 10:
+        if idx % 10 == 0:
             logger.info(f"({idx}/{len(raw_data)}) proceeded")
 
         rand_num = random.uniform(0, 1)
@@ -214,9 +214,11 @@ def plot_data(config: DataViewerConfig, raw_data: list[RawData]):
             logger.debug(
                 f"Pollen type='{temp_sample.type}' max count={config.same_type_count} exceeded. Skipped"
             )
+            continue
 
         scattering_normal = get_scattering_normalized(
-            temp_sample.to_raw_dict()["Scattering"], scattering_cutoff=Consts.SCATTERING_CUTOFF
+            temp_sample.to_raw_dict()["Scattering"],
+            scattering_cutoff=Consts.SCATTERING_CUTOFF,
         )
 
         if config.show_plots:
@@ -228,14 +230,18 @@ def plot_data(config: DataViewerConfig, raw_data: list[RawData]):
         lifetime_max = np.max(temp_sample.lifetime)
         if lifetime_plot.show and lifetime_plot.is_within_range(lifetime_max):
             temp_lifetime = np.reshape(temp_sample.lifetime, (-1, 64))
-            plot_lifetime(temp_lifetime, pollen_type, idx, config, show=config.show_plots)
+            plot_lifetime(
+                temp_lifetime, pollen_type, idx, config, show=config.show_plots
+            )
             was_any_seen = True
 
         spectrum_plot = config.spectrum_plot
         spectrum_max = np.max(temp_sample.spectrometer)
         if spectrum_plot.show and spectrum_plot.is_within_range(spectrum_max):
             temp_spectrum = np.reshape(temp_sample.spectrometer, (-1, 8))
-            plot_spectrum(temp_spectrum, pollen_type, idx, config, show=config.show_plots)
+            plot_spectrum(
+                temp_spectrum, pollen_type, idx, config, show=config.show_plots
+            )
             was_any_seen = True
 
         scattering_plot = config.scattering_plot
@@ -243,7 +249,12 @@ def plot_data(config: DataViewerConfig, raw_data: list[RawData]):
         if scattering_plot.show and scattering_plot.is_within_range(scattering_avg):
             particle_size = get_particle_size(temp_sample.scattering)
             plot_scattering_intensity(
-                scattering_normal, pollen_type, idx, particle_size, config, show=config.show_plots
+                scattering_normal,
+                pollen_type,
+                idx,
+                particle_size,
+                config,
+                show=config.show_plots,
             )
             was_any_seen = True
 
@@ -271,7 +282,7 @@ def handle():
     raw_data_types: list[RawData] = get_pollen_types(
         single_type_count=config.same_type_count,
         should_append_callback=filter_callback,
-        pollen_types=config.pollen_types_to_show
+        pollen_types=config.pollen_types_to_show,
     )
 
     plot_data(config, raw_data_types)

@@ -36,7 +36,7 @@ class ModelBuilderConfig(ConfigModelBase):
     """Pollen types to exclude."""
 
     learningModels: list[str] = field(
-        default_factory=lambda: InputModelNames.TRAIN_MODELS
+        default_factory=lambda: list(InputModelNames.TRAIN_MODELS)
     )
     """Input modalities. Model inputs used for training and further for prediction purposes. Size modality
     is calculated based on the scattering, no additional input is needed."""

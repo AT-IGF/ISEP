@@ -13,12 +13,12 @@ class ProcessingModel:
     predictions mapper), relative to the resources directory."""
 
     file_dateformat_regex: str = r"\d{4}\d{2}\d{2}\d{2}\d{2}"
-    """Filename regex date. Regex representation of the date within the file name. For example, for the
+    r"""Filename regex date. Regex representation of the date within the file name. For example, for the
     file name ``D_001060749_202006160650`` the regex is ``\d{4}\d{2}\d{2}\d{2}\d{2}``. Every file name
     has to contain exactly one match."""
 
     date_format_from_regex_mapping: str = "%Y%m%d%H%M"
-    """Filename regex date mapping. Python date format of the regex representation. For example, for
+    r"""Filename regex date mapping. Python date format of the regex representation. For example, for
     ``\d{4}\d{2}\d{2}\d{2}\d{2}`` the mapping is ``%Y%m%d%H%M``."""
 
     combined_files_filename: str | None = None

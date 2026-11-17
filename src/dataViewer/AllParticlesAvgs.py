@@ -574,8 +574,7 @@ def handle():
             )
             if image_normalized is None:
                 return
-            if len(scatterings[pollen_idx]) < 4000:
-                scatterings[pollen_idx].append(image_normalized)
+            scatterings[pollen_idx].append(image_normalized)
 
         loop(lambda pollen_idx, raw_data: callback(pollen_idx, raw_data))
         hist_scatterings(scatterings, pollen_types_updated)

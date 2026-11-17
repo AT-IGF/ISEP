@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass, field
 from src.core import ConfigModelBase, PathHelper, File
 
@@ -16,8 +17,8 @@ class ModelBuilderScalerConfig(ConfigModelBase):
     the first directory in ``pollen_types_binaries_paths`` is taken."""
 
     pollen_types_binaries_paths: list[str] = field(default_factory=list)
-    """Samples directories. Every subdirectory of the given paths is read and used for fitting the
-    scaler."""
+    """Samples directories, absolute or relative to the resources directory. Every subdirectory of the
+    given paths is read and used for fitting the scaler."""
 
     rescale_existing_files: bool = False
     """Rescale existing files. When the scaler is fitted, it creates scaled files. If new files are added,
@@ -41,6 +42,15 @@ class ModelBuilderScalerConfig(ConfigModelBase):
         return PathHelper.join_rel_path(
             Consts.RESOURCES_PATH, "/modelBuilder/config.json"
         )
+
+    def get_pollen_types_binaries_dirs(self) -> list[str]:
+        paths = []
+        for path in self.pollen_types_binaries_paths:
+            if not os.path.isabs(path):
+                paths.append(PathHelper.join_path(Consts.RESOURCES_PATH, path))
+            else:
+                paths.append(path)
+        return paths
 
     def get_save_path(self) -> File | None:
         return get_dir_with_filter(

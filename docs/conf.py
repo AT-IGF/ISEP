@@ -6,7 +6,8 @@ sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(Path(__file__).parent / "_ext"))
 
 project = "ISEP"
-author = "ISEP contributors"
+author = "Artur Tomczak"
+copyright = "2023-2026, Artur Tomczak, University of Warsaw"
 release = "1.0.1"
 root_doc = "index"
 language = "en"
@@ -54,9 +55,3 @@ html_static_path = ["_static"]
 html_css_files = ["styling.css"]
 
 exclude_patterns = ["_build"]
-
-
-project = "ISEP"
-author = "Artur Tomczak"
-copyright = "2023-2026, Artur Tomczak, University of Warsaw"
-release = "1.0.1"

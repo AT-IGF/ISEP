@@ -218,7 +218,6 @@ class TrainParametersWidget(QWidget):
     @property
     def value(self):
         if self.modify_training_defaults_widget.value == True:
-            self._value.run_training = True
             self._value.single_type_count = self.single_type_count_widget.value
             self._value.sampling_strategy = (
                 self.sampling_strategy_widget.selected_app.value
@@ -234,7 +233,6 @@ class TrainParametersWidget(QWidget):
             self._value.early_stopping = self.early_stopping_widget.value
             self._value.lr_reducer = self.lr_reducer_widget.value
         else:
-            self._value.run_training = False
             self._value = self.value_original
 
         return self._value

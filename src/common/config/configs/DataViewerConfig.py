@@ -36,6 +36,8 @@ class DataViewerConfig(ConfigModelBase):
     option."""
 
     rand_0_1_frequency: float = 0
+    """Random frequency. Probability of plotting a particle after ``same_type_count`` is reached:
+    ``0`` plots none, ``1`` plots all."""
 
     pollen_types_to_show: list[str] = field(default_factory=list)
     """Pollen types whose particles are plotted."""
@@ -50,10 +52,8 @@ class DataViewerConfig(ConfigModelBase):
         )
 
     def __post_init__(self):
-        if 0 > self.rand_0_1_frequency > 1:
-            raise TypeError(
-                "'rand_0_1_frequency' must be between 0-1. Random number is generated, if set to 0 all numbers will be taken"
-            )
+        if not 0 <= self.rand_0_1_frequency <= 1:
+            raise ValueError("'rand_0_1_frequency' must be between 0 and 1.")
 
     def get_save_path(self):
         return PathHelper.get_absolute_path(

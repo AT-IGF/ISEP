@@ -46,7 +46,6 @@ def handle(**kwargs):
         ),
         classes=config.pollen_types,
     )
-    logger.warning("Data normalization is hardcoded")
 
     progress_handler = ProgressHandler()
     data_processor = DataProcessor(progress_handler)
@@ -88,20 +87,25 @@ def handle(**kwargs):
             batch_size=10000,
             should_append_callback=callback,
         ):
-            if len(raw_data_set):
+            if len(raw_data_set) == 0:
                 logger.info("Set empty skipping.")
+                progress_handler.save_progress(
+                    files_to_process=files_to_process, processed_files=processed_files
+                )
+                files_count_left -= len(processed_files)
+                if files_count_left == 0:
+                    break
+                continue
 
             y_preds: list[Prediction] = predictor.predict(raw_data_set=raw_data_set)
 
-            predictionSummary.on_measurement(y_preds, add_file_header=add_file_header)
-            add_file_header = False
+            predictionSummary.on_measurement(y_preds)
             predictionWithThresholdSummary.on_measurement(y_preds)
-            total_count += len(raw_data_set)
             particlesCountSummary.on_measurement(
                 model=ParticlesCountModel(
                     with_threshold_count=predictionWithThresholdSummary.y_preds_tr_count,
                     no_threshold_count=predictionSummary.y_preds_count,
-                    total_count=total_count,
+                    total_count=len(raw_data_set),
                 )
             )
 

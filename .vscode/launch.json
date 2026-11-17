@@ -65,10 +65,10 @@
             "justMyCode": false
         },
         {
-            "name": "testing",
+            "name": "Sample: flow",
             "type": "debugpy",
             "request": "launch",
-            "module": "testing",
+            "module": "sample.sample_flow",
             "justMyCode": false
         },
         {

@@ -127,6 +127,7 @@ def cluster_purity(true_labels, pred_labels):
 
 
 def cluster_fmeasure(true_labels, pred_labels):
+    pred_labels = np.asarray(pred_labels)
     mask = true_labels != -1
     true_known = true_labels[mask]
     pred_known = pred_labels[mask]
@@ -139,11 +140,13 @@ def cluster_fmeasure(true_labels, pred_labels):
         true_indices = np.where(true_known == label)[0]
         best_f1 = 0
         for cluster in np.unique(pred_known):
+            if cluster == -1:
+                continue
             cluster_indices = np.where(pred_known == cluster)[0]
             intersection = len(np.intersect1d(true_indices, cluster_indices))
             if intersection == 0:
                 continue
-            precision = intersection / len(cluster_indices)
+            precision = intersection / np.sum(pred_labels == cluster)
             recall = intersection / len(true_indices)
             f1 = 2 * precision * recall / (precision + recall)
             best_f1 = max(best_f1, f1)
@@ -165,16 +168,16 @@ def get_clutser_assigment(cluster_labels, true_labels, csv_prefix=""):
     ct = pd.crosstab(df["cluster"], df["class"], margins=True, margins_name="Total")
 
     ct_summary = ct.drop(index="Total", columns="Total")
-    ct_calc = ct_summary.iloc[:, 1:]
+    ct_calc = ct_summary.drop(columns=-1, errors="ignore")
 
     if ct_calc.size == 0:
         logger.info(
             f"Cluster asigmnet size is 0. assigments: {dict(Counter(true_labels))}"
         )
         return
-    max_heading = ct_calc.idxmax(axis=1)
-    max_counts = ct_calc.max(axis=1)
-    row_totals = ct_calc.sum(axis=1)
+    max_heading = ct_summary.idxmax(axis=1)
+    max_counts = ct_summary.max(axis=1)
+    row_totals = ct_summary.sum(axis=1)
     share = max_counts / row_totals
 
     ct.loc[ct.index != "Total", "max_heading"] = max_heading
@@ -213,12 +216,23 @@ def print_metrics(partial_labels, labels, csv_prefix=""):
     f_measure = cluster_fmeasure(true_labels=partial_labels, pred_labels=labels)
     ari = adjusted_rand_score(true_known, pred_known)
     homogeneity = homogeneity_score(true_known, pred_known)
-    cluster_assigment = get_clutser_assigment(partial_labels, labels, csv_prefix)
+    cluster_assigment = get_clutser_assigment(labels, partial_labels, csv_prefix)
 
-    logger.info(f"HDBSCAN Purity={purity * 100:.2f}%")
+    n_known_classes = len(np.unique(true_known))
+    if n_known_classes >= 2:
+        purity = cluster_purity(true_labels=partial_labels, pred_labels=labels)
+        ari = adjusted_rand_score(true_known, pred_known)
+        homogeneity = homogeneity_score(true_known, pred_known)
+        logger.info(f"HDBSCAN Purity={purity * 100:.2f}%")
+        logger.info(f"ARI={ari * 100:.2f}%")
+        logger.info(f"homogeneity_score={homogeneity * 100:.2f}%")
+    else:
+        purity = ari = homogeneity = None
+        logger.info(
+            "Purity, ARI and homogeneity skipped: at least 2 labeled classes required"
+        )
+
     logger.info(f"HDBSCAN F-measure={f_measure * 100:.2f}%")
-    logger.info(f"ARI={ari * 100:.2f}%")
-    logger.info(f"homogeneity_score={homogeneity * 100:.2f}%")
     logger.info(f"Cluster-Class Counts:\n {cluster_assigment}")
     path_prefix = get_path_prefix() + f"_class_counts_metadata{csv_prefix}.csv"
     df = pd.DataFrame(
@@ -446,7 +460,7 @@ def run(
     components_before_pca = len(umap_embeddings[0])
     if components_before_pca >= 50:
         logging.getLogger().warning(
-            f"PCA - embeddings has more than 50 components. It will drastically increase hdbscan training time (different calculation method above 50 dimensions), count={len(embeddings[0])} (before: {components_before_pca})"
+            f"PCA - embeddings has more than 50 components. It will drastically increase hdbscan training time (different calculation method above 50 dimensions), count={components_before_pca}"
         )
 
     umap_embeddings = run_pca(umap_embeddings, color_label_map, labels)
@@ -459,6 +473,7 @@ def run(
         logger.info(f"Samples count: {len(umap_embeddings)}")
 
     if PLOT == True:
+        logger.info("Plotting clustering input")
         plot_embeddings(
             embeddings=np.array(umap_embeddings),
             components_count=len(umap_embeddings[0]),
@@ -478,8 +493,12 @@ def run(
         clusterer: HDBSCAN = load_hdbscan(clusterer_path)
     else:
         dims = len(umap_embeddings[0])
-        jobs = -1
-        if dims > 50 and MIN_CLUSTER_SIZE > 1000:
+        jobs = (
+            Config().get(ModelBuilderUnsupervisedConfig).cluster_parameters.hdbscan.jobs
+        )
+        if jobs != -1:
+            logger.info(f"User definied number of jobs set, jobs={jobs}")
+        elif dims > 50 and MIN_CLUSTER_SIZE > 1000:
             jobs = 4
         elif MIN_CLUSTER_SIZE > 2500 and dims > 50:
             jobs = 1
@@ -493,7 +512,7 @@ def run(
             min_cluster_size=MIN_CLUSTER_SIZE,
             min_samples=MIN_SAMPLES,
             cluster_selection_epsilon=CLUSTER_SELECTION_ELIPSON,
-            prediction_data=True,
+            prediction_data=True,  # required by approximate_predict in model inference
             cluster_selection_method=CLUSTER_SELECTION_METHOD,
             alpha=ALPHA,
             metric=METRIC,
@@ -506,7 +525,7 @@ def run(
         logger.info(f"HDBSCAN trained, saving under path, path={clusterer_path}")
         save_hdbscan(clusterer, filepath=clusterer_path)
 
-    if  not sum(labels != -1) == 0:
+    if not sum(labels != -1) == 0:
         logger.info(f"HDBSCAN predicting...")
         print_metrics(partial_labels=labels, labels=np.array(clusterer.labels_))
 
@@ -521,12 +540,13 @@ def run(
     else:
         logger.info("KNN file exists skipping")
     if PLOT_RESULT == True:
+        logger.info("Plotting clustering results")
         plot_hdbscan(
             X=umap_embeddings,
             labels=np.array(clusterer.labels_),
             partially_known_labels=labels,
             save_path=clusterer_plot_path,
-            alpha=0.1,
+            alpha=0.5,
         )
 
 
@@ -564,8 +584,10 @@ def get_combinations_count(datas, umap_embeddings):
 def run_dhbscan_options2(
     umap_embeddings, umap_metadata, model_save_name, color_label_map, with_umap=False
 ):
-    global PRE_PCA_NORMALIZATION, PCA_COMPONENTS, POST_PCA_NORMALIZATION, METRIC, MIN_CLUSTER_SIZE, MIN_SAMPLES, CLUSTER_SELECTION_METHOD, SAMPLE_RATIO, PLOT, PLOT_RESULT, KNN_NEIGHBORS, TRAIN_KNN, WITH_UMAP
+    global PRE_PCA_NORMALIZATION, PCA_COMPONENTS, POST_PCA_NORMALIZATION, METRIC, MIN_CLUSTER_SIZE, MIN_SAMPLES, CLUSTER_SELECTION_METHOD, SAMPLE_RATIO, PLOT, PLOT_RESULT, KNN_NEIGHBORS, TRAIN_KNN, WITH_UMAP, ALPHA, CLUSTER_SELECTION_ELIPSON
     config = Config().get(ModelBuilderUnsupervisedConfig).cluster_parameters.hdbscan
+    ALPHA = config.alpha
+    CLUSTER_SELECTION_ELIPSON = config.cluster_selection_epsilon
     PLOT = config.plot_pca
     PLOT_RESULT = config.plot_result
     KNN_NEIGHBORS = config.knn.n_neighbors

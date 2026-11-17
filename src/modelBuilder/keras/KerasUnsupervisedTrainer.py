@@ -50,10 +50,6 @@ class KerasUnsupervisedTrainer:
         logging.getLogger().info(
             "Plotting history plot. To turn it off set 'verify_model.show_history_plot to false."
         )
-        import matplotlib
-
-        matplotlib.use("TkAgg")
-
         epochs = range(1, len(history["learning_rate"]) + 1)
         for key, values in history.items():
             if "size" in key:

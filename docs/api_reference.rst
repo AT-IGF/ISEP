@@ -1,5 +1,3 @@
-.. _python-api-entry-points:
-
 Python API Reference
 ====================
 

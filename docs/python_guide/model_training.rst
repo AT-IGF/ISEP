@@ -25,7 +25,7 @@ Model training
 
 Training in ISEP similarly to the machine larning field allows to divide the dataset into training, validation and test samples. Inisde ISEP an additional layer was added called namespace. Within the namespace test set remains constant, which means that different models may use different types of setups, however when it comes to model evaluation all models withing the same namespace will use the same test set. For training fine-tuning most imporant options were extracted to config file, however to modify the neural network the source code is required.
 
-Below is presented sample block of code that allows to train supervised model. It takes ``2000`` samples of every labelled class, while using ``OVERSAMPLE_STRATEGY``, classes that have not reached ``2000`` samples will be duplicated. Additionaly early stopping is enabled to stop the training, if no progress above ``0.05`` was deteted for ``2`` consecutive epochs. 
+Below is presented sample block of code that allows to train supervised model. It takes ``2000`` samples of every labelled class. With ``OVERSAMPLE_STRATEGY``, training samples of classes that have not reached ``2000`` samples are duplicated; validation and test sets are not oversampled. Additionally, early stopping is enabled to stop the training, if no progress above ``0.05`` was detected for ``2`` consecutive epochs. 
 
 .. code-block:: python
 
@@ -56,7 +56,7 @@ Running the task prodcues output log file showing also live steam in the console
 .. code-block:: text
    :class: scrollable-code
 
-   2026-11-11 10:08:26,058 | INFO | Logging in: 'C:\Users\tomcz\IdeaProjects\ISEP\resources\modelBuilder\logs\20261111.log'
+   2026-11-11 10:08:26,058 | INFO | Logging in: '<root>\ISEP\resources\modelBuilder\logs\20261111.log'
    2026-11-11 10:08:26,059 | INFO | Python version='3.11.4 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 13:47:18) [MSC v.1916 64 bit (AMD64)]'. (Implemented in 3.11.4)
    2026-11-11 10:08:26,059 | INFO | Current Python interpreter path: 'z:\Miniconda3\envs\myenv\python.exe'
    2026-11-11 10:08:26,059 | INFO | Configs cache on save is NOT invalidated
@@ -67,8 +67,8 @@ Running the task prodcues output log file showing also live steam in the console
    2026-11-11 10:08:26,065 | INFO | Searching for files under path='E:\PKL_Test', types that will be excluded=[]
    2026-11-11 10:08:26,065 | INFO | Train filter not set.
    2026-11-11 10:08:26,065 | INFO | Test filter not set.
-   2026-11-11 10:08:26,068 | INFO | (1/2) Cached pollen types file found. Skipping. Path=C:\Users\tomcz\IdeaProjects\ISEP\resources\supervised\cache\model_1_Alnus_train.tfrecord
-   2026-11-11 10:08:26,069 | INFO | (2/2) Cached pollen types file found. Skipping. Path=C:\Users\tomcz\IdeaProjects\ISEP\resources\supervised\cache\model_1_ArrhinateRum_train.tfrecord
+   2026-11-11 10:08:26,068 | INFO | (1/2) Cached pollen types file found. Skipping. Path=<root>\ISEP\resources\supervised\cache\model_1_Alnus_train.tfrecord
+   2026-11-11 10:08:26,069 | INFO | (2/2) Cached pollen types file found. Skipping. Path=<root>\ISEP\resources\supervised\cache\model_1_ArrhinateRum_train.tfrecord
    2026-11-11 10:08:26,073 | INFO | Input modalities: ['spectrum_unsup', 'lifetime_unsup', 'scattering_unsup', 'size']
    z:\Miniconda3\envs\myenv\Lib\site-packages\keras\src\layers\convolutional\base_conv.py:107: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
    super().__init__(activity_regularizer=activity_regularizer, **kwargs)
@@ -125,10 +125,10 @@ Running the task prodcues output log file showing also live steam in the console
    2026-11-11 10:08:26,617 | INFO | Class weights: {1: 1, 0: 1}
    2026-11-11 10:08:26,653 | INFO | Buffer size mode is set to ALL_SAMPLES, new buffer_size=59.
    2026-11-11 10:08:26,654 | INFO | Buffer size overridden to buffer_size=59. To high values can cause out of memory error.
-   0 2 C:\Users\tomcz\IdeaProjects\ISEP\resources\supervised\cache\model_1_Alnus_validation.tfrecord
+   0 2 <root>\ISEP\resources\supervised\cache\model_1_Alnus_validation.tfrecord
    2026-11-11 10:08:26.680506: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 10:08:26.707410: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-   1 2 C:\Users\tomcz\IdeaProjects\ISEP\resources\supervised\cache\model_1_ArrhinateRum_validation.tfrecord
+   1 2 <root>\ISEP\resources\supervised\cache\model_1_ArrhinateRum_validation.tfrecord
    2026-11-11 10:08:26.741084: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 10:08:26.766658: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 10:08:26,776 | INFO | Total count for validation set count=13
@@ -159,7 +159,7 @@ Running the task prodcues output log file showing also live steam in the console
    2026-11-11 10:08:31.750306: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
             [[{{node IteratorGetNext}}]]
    2026-11-11 10:08:31,757 | INFO | 5/5 FINISHED - accuracy=0.5085 loss=0.6828 val_accuracy=0.5385 val_loss=0.6902
-   2026-11-11 10:08:31,818 | INFO | Saving trained model under path: C:\Users\tomcz\IdeaProjects\ISEP\resources\modelBuilder\model_1_model.h5
+   2026-11-11 10:08:31,818 | INFO | Saving trained model under path: <root>\ISEP\resources\modelBuilder\model_1_model.h5
    2026-11-11 10:08:31,818 | WARNING | You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
    2026-11-11 10:08:31,881 | INFO | Calibration is turned off to enable it set: 'calibration.run_calibration' to true
    2026-11-11 10:08:31,882 | INFO | Run summaries=False
@@ -290,13 +290,13 @@ Additionally, the ``summaries.diff_model_name`` option allows users to compare t
    2026-11-11 12:19:25,906 | INFO | Recall: 74.93%
    2026-11-11 12:19:25,907 | INFO | F1: 74.98%
    2026-11-11 12:19:25,914 | INFO | ROC AUC score: 93.88%
-   2026-11-11 12:19:25,916 | INFO | Diff (another) model found, path='/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelBuilder/isep_demo_model.h5'
+   2026-11-11 12:19:25,916 | INFO | Diff (another) model found, path='<root>/ISEP/resources/modelBuilder/isep_demo_model.h5'
    INFO:root:Trained model summary - no threshold
    INFO:root:Precission: 75.03%
    INFO:root:Recall: 74.93%
    INFO:root:F1: 74.98%
    INFO:root:ROC AUC score: 93.88%
-   INFO:root:Diff (another) model found, path='/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelBuilder/isep_demo_model.h5'
+   INFO:root:Diff (another) model found, path='<root>/ISEP/resources/modelBuilder/isep_demo_model.h5'
    2026-11-11 12:19:26,110 | WARNING | Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
    WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
    134/134 ━━━━━━━━━━━━━━━━━━━━ 1s 7ms/step   
@@ -389,7 +389,7 @@ The sample below trains an autoencoder for ``5`` epochs on the four default trai
             model_save_name="unsupervised_model_1",
             train_parameters=TrainParametersModel(
                 train_model=True,
-                pollen_types_binaries_paths=["E:/PKL_Test"],
+                pollen_types_binaries_paths=["PKL_Test"],
                 learningModels=TrainParametersModel.InputModelNames.TRAIN_MODELS,
                 scaler_path="modelBuilder/scaler/base_cleanup/my_scaler.pkl",
                 epochs=5,
@@ -402,7 +402,7 @@ As with supervised training, the output is written to a log file and streamed to
 .. code-block:: text
    :class: scrollable-code
 
-   2026-11-11 13:30:29,980 | INFO | Logging in: 'C:\Users\tomcz\IdeaProjects\ISEP\resources\modelBuilderUnsupervised\logs\20261111.log'
+   2026-11-11 13:30:29,980 | INFO | Logging in: '<root>\ISEP\resources\modelBuilderUnsupervised\logs\20261111.log'
    2026-11-11 13:30:29,980 | INFO | Python version='3.11.4 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 13:47:18) [MSC v.1916 64 bit (AMD64)]'. (Implemented in 3.11.4)
    2026-11-11 13:30:29,980 | INFO | Current Python interpreter path: 'z:\Miniconda3\envs\myenv\python.exe'
    2026-11-11 13:30:29,981 | INFO | Configs cache on save is NOT invalidated
@@ -448,18 +448,18 @@ As with supervised training, the output is written to a log file and streamed to
    │                               │                           │                 │ scattering_unsup_encoder[… │
    │                               │                           │                 │ size_encoder[0][0]         │
    ├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
-   │ dense_5 (Dense)               │ (None, 16)                │         208,976 │ concatenate[0][0]          │
+   │ latent (Dense)               │ (None, 16)                │         208,976 │ concatenate[0][0]          │
    ├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
-   │ spectrum_unsup_decoder        │ (None, 32, 8, 1)          │          28,008 │ dense_5[0][0]              │
+   │ spectrum_unsup_decoder        │ (None, 32, 8, 1)          │          28,008 │ latent[0][0]              │
    │ (Sequential)                  │                           │                 │                            │
    ├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
-   │ lifetime_unsup_decoder        │ (None, 64, 4)             │          36,324 │ dense_5[0][0]              │
+   │ lifetime_unsup_decoder        │ (None, 64, 4)             │          36,324 │ latent[0][0]              │
    │ (Sequential)                  │                           │                 │                            │
    ├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
-   │ scattering_unsup_decoder      │ (None, 120, 24, 1)        │         251,521 │ dense_5[0][0]              │
+   │ scattering_unsup_decoder      │ (None, 120, 24, 1)        │         251,521 │ latent[0][0]              │
    │ (Sequential)                  │                           │                 │                            │
    ├───────────────────────────────┼───────────────────────────┼─────────────────┼────────────────────────────┤
-   │ size_decoder (Sequential)     │ (None, 1)                 │              37 │ dense_5[0][0]              │
+   │ size_decoder (Sequential)     │ (None, 1)                 │              37 │ latent[0][0]              │
    └───────────────────────────────┴───────────────────────────┴─────────────────┴────────────────────────────┘
    Total params: 558,474 (2.13 MB)
    Trainable params: 557,898 (2.13 MB)
@@ -470,8 +470,8 @@ As with supervised training, the output is written to a log file and streamed to
    2026-11-11 13:30:30.634485: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 13:30:30,649 | INFO | Total samples to train: 68
    2026-11-11 13:30:30,649 | WARNING | Verification for .tfrecord not implemented
-   0 2 C:\Users\tomcz\IdeaProjects\ISEP\resources\unsupervised\cache\raw\Alnus.tfrecord
-   1 2 C:\Users\tomcz\IdeaProjects\ISEP\resources\unsupervised\cache\raw\ArrhinateRum.tfrecord
+   0 2 <root>\ISEP\resources\unsupervised\cache\raw\Alnus.tfrecord
+   1 2 <root>\ISEP\resources\unsupervised\cache\raw\ArrhinateRum.tfrecord
    2026-11-11 13:30:30,827 | INFO | Total count for validation set count=68
    2026-11-11 13:30:30,861 | INFO | --------------------------------------------
    2026-11-11 13:30:30,862 | INFO | Epoch 1/5
@@ -489,7 +489,7 @@ As with supervised training, the output is written to a log file and streamed to
    2026-11-11 13:30:42,934 | INFO | Epoch 5/5
    2026-11-11 13:30:43,179 | INFO | 5/5 FINISHED - lifetime_unsup_decoder_loss=0.0839 lifetime_unsup_decoder_mae=0.2621 lifetime_unsup_decoder_mse=0.0839 loss=0.3683 scattering_unsup_decoder_loss=0.0150 scattering_unsup_decoder_mae=0.0710 scattering_unsup_decoder_mse=0.0150 size_decoder_loss=0.1249 size_decoder_mae=0.2543 size_decoder_mse=0.1249 spectrum_unsup_decoder_loss=0.1020 spectrum_unsup_decoder_mae=0.2815 spectrum_unsup_decoder_mse=0.1020 val_lifetime_unsup_decoder_loss=0.1080 val_lifetime_unsup_decoder_mae=0.4643 val_lifetime_unsup_decoder_mse=0.2159 val_loss=0.8241 val_scattering_unsup_decoder_loss=0.0992 val_scattering_unsup_decoder_mae=0.4431 val_scattering_unsup_decoder_mse=0.1984 val_size_decoder_loss=0.0651 val_size_decoder_mae=0.2585 val_size_decoder_mse=0.1301 val_spectrum_unsup_decoder_loss=0.1186 val_spectrum_unsup_decoder_mae=0.4861 val_spectrum_unsup_decoder_mse=0.2372
    2026-11-11 13:30:43,189 | WARNING | You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
-   2026-11-11 13:30:43,302 | INFO | Saved model and history at epoch 5. model_path=C:\Users\tomcz\IdeaProjects\ISEP\resources\modelBuilder\unsupervised\KerasTrainer\unsupervised_model_1\unsupervised_model_1_epoch5_model.h5, history_path=C:\Users\tomcz\IdeaProjects\ISEP\resources\modelBuilder\unsupervised\KerasTrainer\unsupervised_model_1\unsupervised_model_1_epoch5_model_history.pkl
+   2026-11-11 13:30:43,302 | INFO | Saved model and history at epoch 5. model_path=<root>\ISEP\resources\modelBuilder\unsupervised\KerasTrainer\unsupervised_model_1\unsupervised_model_1_epoch5_model.h5, history_path=<root>\ISEP\resources\modelBuilder\unsupervised\KerasTrainer\unsupervised_model_1\unsupervised_model_1_epoch5_model_history.pkl
    2026-11-11 13:30:43,380 | WARNING | You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
    2026-11-11 13:30:43,486 | INFO | Plotting history plot. To turn it off set 'verify_model.show_history_plot to false.
    2026-11-11 13:32:36,132 | INFO | Veryfying model DISABLED. To disable set 'verify_model.verify_model' to true
@@ -524,13 +524,14 @@ The following example verifies a model given under the property `model_save_name
             model_save_name="unsupervised_model_1",
             train_parameters=TrainParametersModel(
                 train_model=False,
-                pollen_types_binaries_paths=["E:/PKL_Test"],
+                pollen_types_binaries_paths=["PKL_Test"],
                 learningModels=TrainParametersModel.InputModelNames.TRAIN_MODELS,
                 scaler_path="modelBuilder/scaler/base_cleanup/my_scaler.pkl",
                 with_labeled_samples=True,
                 pollen_types=["Alnus"]
             ),
             verify_model=VerifyModel(
+                verify_model=True,
                 plot_reconstructions=True
             ),
         )
@@ -580,7 +581,7 @@ The following example reduces the latent space with UMAP and clusters the result
             model_save_name="unsupervised_model_1",
             train_parameters=TrainParametersModel(
                 train_model=False,
-                pollen_types_binaries_paths=["E:/PKL_Test"],
+                pollen_types_binaries_paths=["PKL_Test"],
                 learningModels=TrainParametersModel.InputModelNames.TRAIN_MODELS,
                 pollen_types=["Alnus"],
                 with_labeled_samples=True,
@@ -600,6 +601,7 @@ The following example reduces the latent space with UMAP and clusters the result
                     run_hdbscan=True,
                     min_cluster_size=[250],
                     min_samples=[100],
+                    pca_components=None,
                     post_pca_normalization=None,
                     sample_ratio=1.0,
                 ),
@@ -621,14 +623,14 @@ The cluster–class table in the log shows the number of particles of every clas
 .. code-block:: text
    :class: scrollable-code
 
-   2026-11-14 07:17:27,266 - root - INFO - Logging in: '/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelBuilderUnsupervised/logs/20261114.log'
+   2026-11-14 07:17:27,266 - root - INFO - Logging in: '<root>/ISEP/resources/modelBuilderUnsupervised/logs/20261114.log'
    2026-11-14 07:17:27,267 - modelBuilderUnsupervised - INFO - Python version='3.11.4 (main, Jul  5 2023, 13:45:01) [GCC 11.2.0]'. (Implemented in 3.11.4)
    2026-11-14 07:17:27,267 - modelBuilderUnsupervised - INFO - Current Python interpreter path: '/home/tomcz/miniconda3/bin/python'
    2026-11-14 07:17:27,267 - modelBuilderUnsupervised - INFO - Configs cache on save is NOT invalidated
    2026-11-14 07:17:27,267 - root - INFO - Tensorflow version='2.16.1'. (Implemented in 2.16.1)
    2026-11-14 07:17:27,587 - root - INFO - is_gpu_available: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
    2026-11-14 07:17:27,588 - root - INFO - is_built_with_cuda=True (v12.3)
-   2026-11-14 07:17:27,598 - root - INFO -  filter found under path:/home/tomcz/PollenTypingWsl/Rapid-E/resources/common/filters/modality_filters.py
+   2026-11-14 07:17:27,598 - root - INFO -  filter found under path:<root>/ISEP/resources/common/filters/modality_filters.py
    2026-11-14 07:17:27,599 - root - INFO - (1/11) Cached pollen types file found. Skipping
    2026-11-14 07:17:27,599 - root - INFO - (2/11) Cached pollen types file found. Skipping
    2026-11-14 07:17:27,600 - root - INFO - (3/11) Cached pollen types file found. Skipping
@@ -643,24 +645,24 @@ The cluster–class table in the log shows the number of particles of every clas
    2026-11-14 07:17:27,603 - root - INFO - Training model DISABLED. To disable set 'train_parameters.train_model' to true
    2026-11-14 07:17:27,603 - root - INFO - Veryfying model DISABLED. To disable set 'verify_model.verify_model' to true
    2026-11-14 07:17:27,604 - root - INFO - Clustering enabled. To disable set 'cluster_parameters.run_clustering' to false
-   2026-11-14 07:17:27,604 - root - INFO - 1/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_001.tfrecord
-   2026-11-14 07:17:27,604 - root - INFO - 2/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_002.tfrecord
-   2026-11-14 07:17:27,605 - root - INFO - 3/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_003.tfrecord
-   2026-11-14 07:17:27,605 - root - INFO - 4/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_004.tfrecord
-   2026-11-14 07:17:27,606 - root - INFO - 5/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_005.tfrecord
-   2026-11-14 07:17:27,606 - root - INFO - 6/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_006.tfrecord
-   2026-11-14 07:17:27,607 - root - INFO - 7/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_007.tfrecord
-   2026-11-14 07:17:27,607 - root - INFO - 8/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_008.tfrecord
-   2026-11-14 07:17:27,608 - root - INFO - 9/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_009.tfrecord
-   2026-11-14 07:17:27,609 - root - INFO - 10/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/D_00167_010.tfrecord
-   2026-11-14 07:17:27,610 - root - INFO - 11/11 Processing path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/cache/modality_filters/Alnus.tfrecord
-   2026-11-14 07:17:27,610 - root - INFO - Latent vectors file found. Retriving..., path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/latent_vectors/unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-_reg-11dirs_latent_vectors.h5
+   2026-11-14 07:17:27,604 - root - INFO - 1/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_001.tfrecord
+   2026-11-14 07:17:27,604 - root - INFO - 2/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_002.tfrecord
+   2026-11-14 07:17:27,605 - root - INFO - 3/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_003.tfrecord
+   2026-11-14 07:17:27,605 - root - INFO - 4/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_004.tfrecord
+   2026-11-14 07:17:27,606 - root - INFO - 5/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_005.tfrecord
+   2026-11-14 07:17:27,606 - root - INFO - 6/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_006.tfrecord
+   2026-11-14 07:17:27,607 - root - INFO - 7/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_007.tfrecord
+   2026-11-14 07:17:27,607 - root - INFO - 8/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_008.tfrecord
+   2026-11-14 07:17:27,608 - root - INFO - 9/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_009.tfrecord
+   2026-11-14 07:17:27,609 - root - INFO - 10/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/D_00167_010.tfrecord
+   2026-11-14 07:17:27,610 - root - INFO - 11/11 Processing path=<root>/ISEP/resources/unsupervised/cache/modality_filters/Alnus.tfrecord
+   2026-11-14 07:17:27,610 - root - INFO - Latent vectors file found. Retriving..., path=<root>/ISEP/resources/unsupervised/latent_vectors/unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-_reg-11dirs_latent_vectors.h5
    2026-11-14 07:17:27,645 - root - INFO - UMAP data to procees=[{'N_NEIGHBORS': [100], 'N_COMPONENTS': [3], 'MIN_DIST': [0.1], 'PRE_UMAP_NORMALIZATION': ['l2'], 'METRIC': ['cosine'], 'OUTPUT_METRIC': ['euclidean']}]
    2026-11-14 07:17:27,646 - root - INFO - N_NEIGHBORS=100, N_COMPONENTS=3, MIN_DIST=0.1, MIN_DIST=l2, METRIC=cosine, OUTPUT_METRIC=euclidean, TARGET_METRIC=categorical, TARGET_WEIGHT=0.0, SPREAD=1.0, SAMPLE_RATIO=1.0, TARGET_ENABLED=False
    2026-11-14 07:17:27,646 - root - INFO - Running normalization on dataset, normalization=l2
    2026-11-14 07:17:27,665 - root - INFO - UMAP set downsampled with ratio=1.0, samples left count=12235/12235
-   2026-11-14 07:17:27,696 - root - INFO - File already exists. Skipping, path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/umap/1784381671_latent_id-l2_pre_norm-1_0sr-cosine_m-categorical_tm-euclidean_out_m-0_0tw-0_1md-1_0_sp-100n-3D-umap.pk1
-   2026-11-14 07:17:30,392 - root - INFO - Loading embeddings path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/umap/1784381671_latent_id-l2_pre_norm-1_0sr-cosine_m-categorical_tm-euclidean_out_m-0_0tw-0_1md-1_0_sp-100n-3D-umap-embeddings.h5
+   2026-11-14 07:17:27,696 - root - INFO - File already exists. Skipping, path=<root>/ISEP/resources/unsupervised/umap/1784381671_latent_id-l2_pre_norm-1_0sr-cosine_m-categorical_tm-euclidean_out_m-0_0tw-0_1md-1_0_sp-100n-3D-umap.pk1
+   2026-11-14 07:17:30,392 - root - INFO - Loading embeddings path=<root>/ISEP/resources/unsupervised/umap/1784381671_latent_id-l2_pre_norm-1_0sr-cosine_m-categorical_tm-euclidean_out_m-0_0tw-0_1md-1_0_sp-100n-3D-umap-embeddings.h5
    2026-11-14 07:17:30,404 - root - INFO - Plotting...
    2026-11-14 07:17:30,404 - root - INFO - Labels: Unknown: -1 (gray), Alnus: 0 (green)
    2026-11-14 07:17:36,807 - root - INFO - HDBSCAN data to procees=[{'pre_pca_normalizations': [None], 'pca_components': [0.95], 'post_pca_normalizations': [None], 'min_cluster_sizes': [250], 'min_samples': [100], 'metrics': ['chebyshev'], 'cluster_selection_method': ['eom'], 'sample_ratio': [1.0]}]
@@ -669,7 +671,7 @@ The cluster–class table in the log shows the number of particles of every clas
    2026-11-14 07:17:36,808 - root - INFO - Running HDBSCAN to disable it set 'cluster_parameters.hdbscan.run_hdbscan' to false
    2026-11-14 07:17:36,811 - root - INFO - PCA - components left after PCA, count=3 (before: 3)
    2026-11-14 07:17:36,812 - root - INFO - Samples count: 9735
-   2026-11-14 07:17:36,812 - root - INFO - HDBSCAN clusterer already trained, retriving..., path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/hdbscan/unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-1794635441_umap_id-pred-1.0sr-None_pre_norm-0_95pca-None_post_norm-Nonetrans-chebyshev-eom_csm-1_0-250mcs-100ms-0_0cse_hdbscan.joblib
+   2026-11-14 07:17:36,812 - root - INFO - HDBSCAN clusterer already trained, retriving..., path=<root>/ISEP/resources/unsupervised/hdbscan/unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-1794635441_umap_id-pred-1.0sr-None_pre_norm-0_95pca-None_post_norm-Nonetrans-chebyshev-eom_csm-1_0-250mcs-100ms-0_0cse_hdbscan.joblib
    2026-11-14 07:17:36,823 - root - INFO - HDBSCAN predicting...
    2026-11-14 07:17:36,876 - root - INFO - Purity, ARI and homogeneity skipped: at least 2 labeled classes required
    2026-11-14 07:17:36,876 - root - INFO - HDBSCAN F-measure=64.71%
@@ -683,7 +685,7 @@ The cluster–class table in the log shows the number of particles of every clas
    3        2046    27   2073          -1      2046.0  0.986975   0.333116
    Total    6142  3593   9735         NaN         NaN       NaN        NaN
    2026-11-14 07:17:36,886 - root - INFO - HDBSCAN plotting...
-   2026-11-14 07:17:39,327 - root - INFO - HDBSCAN saved under path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/unsupervised/hdbscan/unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-1794635441_umap_id-pred-1.0sr-None_pre_norm-0_95pca-None_post_norm-Nonetrans-chebyshev-eom_csm-1_0-250mcs-100ms-0_0cse_hdbscan_preds_lot.png
+   2026-11-14 07:17:39,327 - root - INFO - HDBSCAN saved under path=<root>/ISEP/resources/unsupervised/hdbscan/unsupervised_model_scaled-size-best-weights-buffer30k_Conv2D_relu_512_2-1794635441_umap_id-pred-1.0sr-None_pre_norm-0_95pca-None_post_norm-Nonetrans-chebyshev-eom_csm-1_0-250mcs-100ms-0_0cse_hdbscan_preds_lot.png
    2026-11-14 07:17:39,327 - root - INFO - Showing plot
 
 Trained UMAP and HDBSCAN models are saved in *resources\\unsupervised\\umap* and *resources\\unsupervised\\hdbscan*, respectively. Once training is completed, the autoencoder and fitted clusterers can be used to process unseen measurements with the :doc:`Model Inference <model_inference>` task. The same scaler and filter used during training should also be applied during inference.

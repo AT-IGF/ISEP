@@ -1,34 +1,35 @@
 Model Inference
 ===============
 
-Model inference runs a trained supervised model on new Rapid-E measurements and saves particle predictions over time. The task can be run using ``isep.run_model_inference``. The same scaler used during training and a filter with at least the same restriction level should be applied to keep data normalization and particle selection consistent.
+Model inference runs a trained supervised model on new Rapid-E measurements and saves particle predictions over time. The task can be run using :func:`isep.run_predictions`. The same scaler used during training and a filter with at least the same restriction level should be applied to keep data normalization and particle selection consistent.
 
 Input
 -----
 
-Measurement files are searched in every directory listed in ``types_to_predict_rel_dirs``. Files are grouped by date, which is extracted from the file name using ``processing.file_dateformat_regex`` and ``processing.date_format_from_regex_mapping`` (by default ``YYYYMMDDHHMM``). Each date is processed separately, and every file name must contain exactly one date match. When the output is set as a single file (``processing.combined_files_filename``), results across the dates are appended to it. Results for the whole period are obtained using :doc:`Predictions Mapper <prediction_mapping>`.
+Measurement files are searched in every directory listed in ``types_to_predict_rel_dirs``, relative to the *resources* directory. Files are grouped by date, which is extracted from the file name using ``processing.file_dateformat_regex`` and ``processing.date_format_from_regex_mapping`` (by default ``YYYYMMDDHHMM``). Each date is processed separately, and every file name must contain exactly one date match. When the output is set as a single file (``processing.combined_files_filename``), results across the dates are appended to it. Results for the whole period are obtained using :doc:`Predictions Mapper <prediction_mapping>`.
 
 The following example runs a previously trained supervised model on field measurements.
 
 .. code-block:: python
 
    import isep
-   from isep.configs import ModelInferenceConfig
-   from isep.configs.modelInference import ProcessingModel
+   from isep.configs import PredictionsRunnerConfig
+   from isep.configs.predictionsRunner import ProcessingModel
 
-   isep.run_model_inference(
-      ModelInferenceConfig(
-            model_rel_path="modelBuilder/model_1_model.h5",
-            pollen_types=["Alnus", "ArrhinateRum"],
-            types_to_predict_rel_dirs=["E:/Field_measurements"],
-            filter_rel_path="common/filters/modality_filters.py",
-            scaler_path="modelBuilder/scaler/base_cleanup/my_scaler.pkl",
-            processing=ProcessingModel(
-               output_dir="modelRunner/out",
-               threshold=0.2,
-            ),
-      )
-   )
+   if __name__ == "__main__":
+       isep.run_predictions(
+           PredictionsRunnerConfig(
+               model_rel_path="modelBuilder/model_1_model.h5",
+               pollen_types=["Alnus", "ArrhinateRum"],
+               types_to_predict_rel_dirs=["Field_measurements"],
+               filter_rel_path="common/filters/modality_filters.py",
+               scaler_path="modelBuilder/scaler/base_cleanup/my_scaler.pkl",
+               processing=ProcessingModel(
+                   output_dir="modelRunner/out",
+                   threshold=0.2,
+               ),
+           )
+       )
 
 Output
 ------
@@ -55,7 +56,7 @@ Files with the ``tr_0_`` prefix hold the predictions, ``PROCESSED_`` files list 
 .. code-block:: text
    :class: scrollable-code
 
-   2026-11-14 11:25:35,066 - root - INFO - Logging in: '/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelRunner/logs/20261114.log'
+   2026-11-14 11:25:35,066 - root - INFO - Logging in: '<root>/ISEP/resources/modelRunner/logs/20261114.log'
    2026-11-14 11:25:35,067 - modelRunner - INFO - Python version='3.11.4 (main, Jul  5 2023, 13:45:01) [GCC 11.2.0]'. (Implemented in 3.11.4)
    2026-11-14 11:25:35,068 - modelRunner - INFO - Current Python interpreter path: '/home/tomcz/miniconda3/bin/python'
    2026-11-14 11:25:35,069 - modelRunner - INFO - Configs cache on save is NOT invalidated
@@ -64,13 +65,13 @@ Files with the ``tr_0_`` prefix hold the predictions, ``PROCESSED_`` files list 
    2026-11-14 11:25:35,708 - root - INFO - is_built_with_cuda=True (v12.3)
    2026-11-14 11:25:35,709 - root - INFO - Started - model runner
    2026-11-14 11:25:35,710 - root - INFO - Predictions threshold=0.2 (any pred for given particle above)
-   2026-11-14 11:25:35,710 - root - INFO - Output dir=/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelRunner/out/processed
+   2026-11-14 11:25:35,710 - root - INFO - Output dir=<root>/ISEP/resources/modelRunner/out/processed
    2026-11-14 11:25:37,903 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
-   2026-11-14 11:25:37,921 - root - INFO - Running model: /home/tomcz/PollenTypingWsl/Rapid-E/resources/modelBuilder/isep_demo_model.h5
-   2026-11-14 11:25:37,931 - root - INFO - Progress count restored form path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelRunner/out/processed/SUMMARY_demo3_tr_0.2_1.csv
+   2026-11-14 11:25:37,921 - root - INFO - Running model: <root>/ISEP/resources/modelBuilder/isep_demo_model.h5
+   2026-11-14 11:25:37,931 - root - INFO - Progress count restored form path=<root>/ISEP/resources/modelRunner/out/processed/SUMMARY_demo3_tr_0.2_1.csv
    2026-11-14 11:25:37,932 - root - INFO - Particles: identified_tr_0.2=5215, identified_tr_0=5215, total=5215
-   2026-11-14 11:25:37,932 - root - INFO -  filter found under path:/home/tomcz/PollenTypingWsl/Rapid-E/resources/common/filters/modality_filters.py
-   2026-11-14 11:25:37,933 - modelRunner - INFO - Data filter found and will be used for particles filtering, path=/home/tomcz/PollenTypingWsl/Rapid-E/resources/common/filters/modality_filters.py
+   2026-11-14 11:25:37,932 - root - INFO -  filter found under path:<root>/ISEP/resources/common/filters/modality_filters.py
+   2026-11-14 11:25:37,933 - modelRunner - INFO - Data filter found and will be used for particles filtering, path=<root>/ISEP/resources/common/filters/modality_filters.py
    2026-11-14 11:25:37,934 - root - INFO - Searching data under path=/mnt/e/Preview/PKL_Sample
    2026-11-14 11:25:38,191 - root - INFO - Identified dates: dict_keys(['20220718', '20220719', '20200615', '20220720', '20220721', '20220722', '20220723', '20220724', '20220725'])
    2026-11-14 11:25:38,196 - root - INFO - All files for date=20220718 were processed. Date will be skipped.
@@ -124,4 +125,4 @@ Cluster filtering (experimental)
 
 Predictions can be additionally filtered with a clustering model fitted during :doc:`unsupervised training <model_training>`. With ``unsupervised.run_unsupervised`` enabled, particles are encoded with the autoencoder (``unsupervised.autoencoder_path``), optionally reduced with UMAP, and assigned to clusters. A particle is kept only if its cluster is mapped to the predicted pollen type in the JSON file given in ``mapping_path``, e.g. ``{"Alnus": [2]}``.
 
-If PCA or additional normalizations were used while fitting HDBSCAN, the same steps have to be enabled in the inference configuration, so that particles are transformed in the same way as during training.
+PCA and the normalizations used while fitting HDBSCAN are currently not supported during inference. HDBSCAN models used for cluster filtering should be fitted without them (``pre_pca_normalization=None``, ``pca_components=None``, ``post_pca_normalization=None``).

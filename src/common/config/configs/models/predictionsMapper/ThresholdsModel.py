@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from src.common import Consts
+from src.core.path import PathHelper
 from src.core.json.Mappings import get_list_int_mapping
 
 
@@ -50,8 +52,13 @@ class ThresholdsModel:
         ):
             return getattr(self, mapping_attr)
 
+        mapping_path = PathHelper.get_absolute_path(
+            Consts.RESOURCES_PATH,
+            self.per_type_thresholds_path,
+            raise_on_not_found=False,
+        )
         mapping = get_list_int_mapping(
-            mapping_path=self.per_type_thresholds_path,
+            mapping_path=mapping_path,
             ref_keys=None,
             key_type=float,
             is_list=False,

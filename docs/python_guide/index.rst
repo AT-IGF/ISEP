@@ -14,7 +14,7 @@ Prerequisites
 -------------
 
 * ISEP is installed according to the :doc:`installation <../getting_started/installation>` guide.
-* You have input data available, either from ``samples/PKL_Test.zip`` or prepared using the ``samples/pklConverter`` utility.
+* You have input data available, either from ``sample/PKL_Test.zip`` or prepared using the ``sample/pklConverter`` utility.
 * Run notebook examples with a kernel attached to the same Python environment as specified in the `Running from Source <https://github.com/AT-IGF/ISEP#running-from-source>`_ section of the ISEP repository.
 
 Configuration and task execution
@@ -30,7 +30,7 @@ Information about the processing steps and execution status is logged to the ter
 
 .. code-block:: text
 
-   2026-11-06 20:34:51,325 | INFO | Logging in: 'C:\Users\tomcz\IdeaProjects\ISEP\resources\dataViewer\logs\20261106.log'
+   2026-11-06 20:34:51,325 | INFO | Logging in: '<root>\ISEP\resources\dataViewer\logs\20261106.log'
    2026-11-06 20:34:51,325 | INFO | Python version='3.11.4 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 13:47:18) [MSC v.1916 64 bit (AMD64)]'. (Implemented in 3.11.4)
    2026-11-06 20:34:51,325 | INFO | Current Python interpreter path: 'z:\Miniconda3\envs\myenv\python.exe'
    2026-11-06 20:34:51,326 | INFO | Configs cache on save is NOT invalidated
@@ -53,25 +53,7 @@ Information about the processing steps and execution status is logged to the ter
 Using ISEP from Jupyter
 -----------------------
 
-The same imports and task calls can be used in a Jupyter notebook.
-
-ISEP supports an optional ``ISEP_CONFIG_DIR`` environment variable for its
-configuration directory. If you need a persistent, experiment-specific
-configuration location, set it **before importing** ``isep``:
-
-.. code-block:: python
-
-   import os
-   from pathlib import Path
-
-   configuration_directory = Path("./isep-run-config").resolve()
-   configuration_directory.mkdir(parents=True, exist_ok=True)
-   os.environ["ISEP_CONFIG_DIR"] = str(configuration_directory)
-
-   import isep
-
-If the environment variable is not set, a temporary configuration directory is used for the current Python process.
-Configuration overrides can be written there when task functions are invoked.
+The same imports and task calls can be used in a Jupyter notebook. Settings passed to a task are saved in the configuration files, so they are also used after restarting the kernel, see :doc:`reproducibility <reproducibility>`.
 
 Recommended workflow
 --------------------

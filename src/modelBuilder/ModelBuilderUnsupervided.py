@@ -208,7 +208,9 @@ def process_available_data(binaries_dirs, filter_callback: Callable[[RawData], b
             )
 
 
-def get_pollen_type_index_or_default_from_path(path, pollen_types, with_labeled_samples):
+def get_pollen_type_index_or_default_from_path(
+    path, pollen_types, with_labeled_samples
+):
     if with_labeled_samples:
         pollen_type = get_pollen_type_from_path(path=path)
         pollen_type_idx = get_pollen_type_idx_or_default(
@@ -253,7 +255,9 @@ def select_random_subset(lst, percentage=10):
 
 
 def get_encoder(model):
-    latent_output = model.get_layer(Consts.AUTOENCODER_LATENT_LAYER_NAME).output
+    from src.modelBuilder.keras.KerasUnsupervisedModelsCombiner import get_latent_layer
+
+    latent_output = get_latent_layer(model).output
     return Model(inputs=model.input, outputs=latent_output)
 
 
@@ -314,7 +318,9 @@ def verify_model(keras_trainer: KerasUnsupervisedTrainer):
     reconstruction_errors, reconstruction_keys = None, []
     for path_idx, path in enumerate(binary_paths):
         pollen_type, pollen_type_idx = get_pollen_type_index_or_default_from_path(
-            path=path, pollen_types=config.train_parameters.pollen_types, with_labeled_samples=config.train_parameters.with_labeled_samples
+            path=path,
+            pollen_types=config.train_parameters.pollen_types,
+            with_labeled_samples=config.train_parameters.with_labeled_samples,
         )
         train_path = config.get_train_file_path(path)
         logging.getLogger().info(
@@ -356,13 +362,16 @@ def verify_model(keras_trainer: KerasUnsupervisedTrainer):
                     X_valid_compressed = model.predict(
                         train_set, callbacks=[LogCallback()]
                     )
-                    
+
                     # quick fix to align result with dict order, it would be better to have X_valid_compressed as key: value
                     def prefix(name):
                         return name.rsplit("_", 1)[0]
+
                     preds = dict(zip(model.output_names, X_valid_compressed))
                     preds_by_prefix = {prefix(k): v for k, v in preds.items()}
-                    X_valid_compressed = [preds_by_prefix[prefix(k)] for k in train_set.keys()]
+                    X_valid_compressed = [
+                        preds_by_prefix[prefix(k)] for k in train_set.keys()
+                    ]
                 if config.verify_model.is_plot_reconstructions() == True:
                     inspectors.ReconstructionInspector.plot_reconstruction(
                         train_set, X_valid_compressed
@@ -400,7 +409,9 @@ def verify_model(keras_trainer: KerasUnsupervisedTrainer):
                 "labels": latent_vectors_y,
                 "pollen_indexes_dict": pollen_indexes_dict,
                 "binary_paths": binary_paths,
-                "id": int(time.time()) if config.cluster_parameters.run_umap() else None,
+                "id": (
+                    int(time.time()) if config.cluster_parameters.run_umap() else None
+                ),
                 "paths": latent_vectors_paths,
                 "paths_indexes_dict": paths_indexes_dict,
             }
@@ -480,7 +491,7 @@ def handle(verbose: int = 0):
         )
     else:
         logging.getLogger().info(
-            f"Training model DISABLED. To disable set 'train_parameters.train_model' to true"
+            f"Training model DISABLED. To enable set 'train_parameters.train_model' to true"
         )
 
     if config.verify_model.verify_model:
@@ -490,7 +501,7 @@ def handle(verbose: int = 0):
         verify_model(keras_trainer)
     else:
         logging.getLogger().info(
-            f"Veryfying model DISABLED. To disable set 'verify_model.verify_model' to true"
+            f"Veryfying model DISABLED. To enable set 'verify_model.verify_model' to true"
         )
 
     if config.cluster_parameters.run_clustering:
@@ -500,7 +511,7 @@ def handle(verbose: int = 0):
         verify_model(keras_trainer)
     else:
         logging.getLogger().info(
-            f"Clustering DISABLED. To disable set 'cluster_parameters.run_clustering' to true"
+            f"Clustering DISABLED. To enable set 'cluster_parameters.run_clustering' to true"
         )
 
 

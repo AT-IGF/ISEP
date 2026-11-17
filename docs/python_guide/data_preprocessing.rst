@@ -36,7 +36,7 @@ The following example displays the scattering plot and saves the output to the d
   from isep.configs.singleSample import SingleSamplePlotModel
   from isep.configs import TypesConfig, PathsConfig
 
-  paths_config = PathsConfig(zip_files_rel_path="E:/PKL_Test")
+  paths_config = PathsConfig(zip_files_rel_path="PKL_Test")
   types_config = TypesConfig(pollen_types=["Alnus", "ArrhinateRum"])
     
   isep.plot_single_sample(
@@ -74,7 +74,7 @@ The following example displays the scattering histogram of both investigated par
     from isep.configs import TypesConfig, PathsConfig, MultipleSamplesConfig
     from isep.configs.multipleSamples import ScatteringModel, HistogramModel
 
-    paths_config = PathsConfig(zip_files_rel_path="E:/PKL_Test")
+    paths_config = PathsConfig(zip_files_rel_path="PKL_Test")
     types_config = TypesConfig(pollen_types=["Alnus", "ArrhinateRum"])
 
     isep.plot_aggregated_samples(
@@ -121,7 +121,7 @@ The following example creates a scaler named ``my_scaler`` using particle measur
    isep.scale_model_data(
        ModelDataScalerConfig(
            scaler_name="my_scaler",
-           pollen_types_binaries_paths=["E:/PKL_Test"],
+           pollen_types_binaries_paths=["PKL_Test"],
            filter_rel_path="common/filters/base_cleanup.py",
        )
    )

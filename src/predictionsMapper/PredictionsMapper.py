@@ -36,7 +36,7 @@ def get_particles_predictions(config: PredictionsMapperConfig, file: File):
 
     if config.preview.is_row_skipping_enabled():
         logging.getLogger().warning(
-            f"Measurements skipping enabled. Every n-th row will be keept. n-th_row={config.preview.keep_every_nth_row}"
+            f"Measurements skipping enabled. Every n-th row is kept. n-th_row={config.preview.keep_every_nth_row}"
         )
 
     df = pd.read_csv(
@@ -169,6 +169,9 @@ def get_threshold_particles_between_timespan(
             )
             raise e
 
+    if len(frames) == 0:
+        return frames_by_span
+
     # add last frame
     if len(frame) != 0:
         to_time = measurement_time
@@ -226,7 +229,7 @@ def handle():
 
     if len(frames_by_span) == 0:
         logger.info(
-            f"No particles found with given threshold={config.thresholds.threshold}"
+            f"No particles found with given threshold={config.thresholds.threshold} within the given time range"
         )
         logger.info("Finished - predictions mapper")
         return

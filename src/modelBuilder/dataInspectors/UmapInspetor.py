@@ -96,6 +96,7 @@ def plot_embeddings(
             alpha=alpha,
         )
     elif components_count == 1:
+        ax = fig.add_subplot(111)
         jitter = np.random.normal(0, 0.05, size=embeddings[:, 0].shape)
         sc = ax.scatter(
             embeddings[:, 0], jitter, c=labels, cmap=cmap, s=marker_size, alpha=alpha
@@ -118,12 +119,13 @@ def plot_embeddings(
         cbar = plt.colorbar(
             sc,
             ax=ax,
-            ticks=np.linspace(
-                min(label_labs) + 0.5, max(label_labs) - 0.5, num=len(label_labs)
-            ),
+            ticks=min(label_labs)
+            + (np.arange(len(label_labs)) + 0.5)
+            * (max(label_labs) - min(label_labs))
+            / len(label_labs),
             orientation="horizontal",
             shrink=0.5,
-            pad=-0.000005,
+            pad=-0.000005 if components_count == 3 else 0.2,
         )
         if cbar_alpha != None:
             cbar.solids.set_alpha(cbar_alpha)  # colorbar alpha
@@ -281,12 +283,14 @@ def capture_umap_output():
     finally:
         sys.stdout = old
 
+
 def get_test_size(latent_vectors):
     n = len(latent_vectors)
 
     if n < 2:
         raise ValueError("At least 2 samples are required")
-    return  2500 if n > 2500 else max(1, int(n * 0.2))
+    return 2500 if n > 2500 else max(1, int(n * 0.2))
+
 
 def run_umap(latent_vectors, labels, name, color_label_map={}, plot=True):
     latent_vectors = normalize_data(
@@ -374,7 +378,7 @@ def run_umap(latent_vectors, labels, name, color_label_map={}, plot=True):
         #     X_pca_plot = PCA(n_components=3)
         #     embeddings_for_plot = X_pca_plot.fit_transform(embeddings)
         plot_embeddings(
-            embeddings=latent_vectors_train,
+            embeddings=embeddings,
             components_count=N_COMPONENTS,
             color_label_map=color_label_map,
             labels=metadata["labels"],
@@ -427,7 +431,7 @@ def run_umap_options(
                 OUTPUT_METRIC = items[keys.index("OUTPUT_METRIC")]
 
                 logging.getLogger().info(
-                    f"N_NEIGHBORS={N_NEIGHBORS}, N_COMPONENTS={N_COMPONENTS}, MIN_DIST={MIN_DIST}, MIN_DIST={PRE_UMAP_NORMALIZATION}, METRIC={METRIC}, OUTPUT_METRIC={OUTPUT_METRIC}, TARGET_METRIC={TARGET_METRIC}, TARGET_WEIGHT={TARGET_WEIGHT}, SPREAD={SPREAD}, SAMPLE_RATIO={SAMPLE_RATIO}, TARGET_ENABLED={TARGET_ENABLED}"
+                    f"N_NEIGHBORS={N_NEIGHBORS}, N_COMPONENTS={N_COMPONENTS}, MIN_DIST={MIN_DIST}, PRE_UMAP_NORMALIZATION={PRE_UMAP_NORMALIZATION}, METRIC={METRIC}, OUTPUT_METRIC={OUTPUT_METRIC}, TARGET_METRIC={TARGET_METRIC}, TARGET_WEIGHT={TARGET_WEIGHT}, SPREAD={SPREAD}, SAMPLE_RATIO={SAMPLE_RATIO}, TARGET_ENABLED={TARGET_ENABLED}"
                 )
                 # run_umap(latent_vectors[:], labels[:], name, color_label_map, plot)
                 yield run_umap(

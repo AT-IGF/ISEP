@@ -294,36 +294,14 @@ class HdbscanWidget(QWidget):
 
         self.cluster_selection_epsilon_widget = LabelValueWidget(
             "Cluster selection elipson",
-            int(self.config.cluster_selection_epsilon),
+            self.config.cluster_selection_epsilon,
             singals,
-            val_type=int,
+            val_type=float,
             suffix_label=None,
             tooltip=None,
             width=100,
             bottom=0,
             top=Consts.INT_MAX,
-        )
-
-        self.cluster_selection_epsilon_widget = LabelValueWidget(
-            "Cluster selection elipson",
-            int(self.config.cluster_selection_epsilon),
-            singals,
-            val_type=int,
-            suffix_label=None,
-            tooltip=None,
-            width=100,
-            bottom=0,
-            top=Consts.INT_MAX,
-        )
-
-        self.prediction_data_widget = MeasurementWidget(
-            self.config.prediction_data,
-            label="Save prediction data",
-            tooltip="Saves information about cluster to use it to for KNN prediction for new samples witout reclustering",
-            value_changed=singals.value_changed,
-            children=[],
-            layout="Vertical",
-            margins=(0, 10, 0, 0),
         )
 
         self.cluster_selection_method_widget = ClusteringSelectionMethodWidget(
@@ -332,7 +310,7 @@ class HdbscanWidget(QWidget):
 
         self.alpha_widget = LabelValueWidget(
             "Alpha",
-            int(self.config.alpha),
+            self.config.alpha,
             singals,
             val_type=float,
             suffix_label=None,
@@ -417,7 +395,7 @@ class HdbscanWidget(QWidget):
                 self.sample_ratio_widget,
                 self.min_cluster_size_widget,
                 self.min_samples_widget,
-                self.prediction_data_widget,
+                self.cluster_selection_epsilon_widget,
                 self.cluster_selection_method_widget,
                 self.alpha_widget,
                 self.metric_widget,
@@ -458,7 +436,6 @@ class HdbscanWidget(QWidget):
             self._value.cluster_selection_epsilon = (
                 self.cluster_selection_epsilon_widget.value
             )
-            self._value.prediction_data = self.prediction_data_widget.value
             self._value.cluster_selection_method = (
                 self.cluster_selection_method_widget.value
             )

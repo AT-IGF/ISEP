@@ -47,7 +47,7 @@ def run_kmeans(latent_vectors, labels, name, color_label_map={}):
     save(
         kmeans=kmeans,
         dir=Config.get(ModelBuilderUnsupervisedConfig).get_kmeans_path(),
-        file=f"{name}-2cl-kmeans.joblib",
+        file=f"{name}-{n_clusters}cl-kmeans.joblib",
     )
 
     if n_clusters > 1:

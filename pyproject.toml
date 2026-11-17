@@ -34,12 +34,12 @@ Issues = "https://github.com/AT-IGF/ISEP/issues"
 files = ["requirements.txt"]
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src", "isep.py", "resources"]
+only-include = ["src", "isep", "resources"]
 
 [tool.hatch.build.targets.sdist]
 only-include = [
     "src",
-    "isep.py",
+    "isep",
     "resources",
     "README.md",
     "requirements.txt",

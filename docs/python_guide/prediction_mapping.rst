@@ -74,13 +74,13 @@ The following example summarizes the predictions of the inference example in dai
 .. code-block:: text
    :class: scrollable-code
 
-   2026-11-14 12:09:14,608 - root - INFO - Logging in: '/home/tomcz/PollenTypingWsl/Rapid-E/resources/predictionsMapper/logs/20261114.log'
+   2026-11-14 12:09:14,608 - root - INFO - Logging in: '<root>/ISEP/resources/predictionsMapper/logs/20261114.log'
    2026-11-14 12:09:14,609 - predictionsMapper - INFO - Python version='3.11.4 (main, Jul  5 2023, 13:45:01) [GCC 11.2.0]'. (Implemented in 3.11.4)
    2026-11-14 12:09:14,610 - predictionsMapper - INFO - Current Python interpreter path: '/home/tomcz/miniconda3/bin/python'
    2026-11-14 12:09:14,610 - predictionsMapper - INFO - Configs cache on save is NOT invalidated
    2026-11-14 12:09:14,610 - root - INFO - Sterted - predictions mapper
    2026-11-14 12:09:14,611 - root - INFO - Detecting particles with threshold=0.2
-   2026-11-14 12:09:14,611 - root - INFO - Processing file=/home/tomcz/PollenTypingWsl/Rapid-E/resources/modelRunner/out/processed/tr_0_demo3.csv
+   2026-11-14 12:09:14,611 - root - INFO - Processing file=<root>/ISEP/resources/modelRunner/out/processed/tr_0_demo3.csv
    2026-11-14 12:09:14,629 - root - WARNING - Processed measurements are constrained between range: from='2022-03-01 00:00:00', to='2022-08-11 23:59:59'
    2026-11-14 12:09:14,735 - root - INFO - Detected particles count = 9672
    2026-11-14 12:09:14,736 - root - INFO - Timespan: 6 day(s), from=2022-07-18 18:54:08, to=2022-07-25 17:32:41

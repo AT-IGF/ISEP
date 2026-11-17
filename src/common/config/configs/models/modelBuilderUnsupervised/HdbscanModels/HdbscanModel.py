@@ -58,7 +58,7 @@ class HdbscanModel:
     point. Every value in the list is evaluated as a separate combination."""
 
     cluster_selection_epsilon: float = 0.0
-    prediction_data: bool = True
+    """Cluster selection epsilon. Distance threshold below which clusters are merged. ``0.0`` disables merging."""
 
     cluster_selection_method: str = CLUS_SEL_EOM
     """Cluster selection method. Method used to decide which clusters should stay and which should be
@@ -66,6 +66,7 @@ class HdbscanModel:
     tree leaf nodes and prefers higher granulation."""
 
     alpha: float | None = 1.0
+    """Alpha. Distance scaling parameter of the robust single linkage."""
 
     metric: str = "chebyshev"
     """Metric. Way to measure distances between points: ``chebyshev``, ``euclidean``, ``manhattan`` or
@@ -73,4 +74,3 @@ class HdbscanModel:
 
     jobs: int = -1
     knn: KnnModel = field(default_factory=KnnModel)
-    plot: bool = True

@@ -29,6 +29,8 @@ class DimensionReducerWidget(QWidget):
         super().__init__()
         self._value = config
         self._value_original = config
+        if self._value.dim_reducer_to_use == self._value.PCA_REDUCTOR:
+            self._value.dim_reducer_to_use = None
         joblib_files_selector = "Joblib files (*.joblib)"
         self.umap_path_widget = DirectorySelectorWidget(
             "UMAP path:",
@@ -53,12 +55,12 @@ class DimensionReducerWidget(QWidget):
                 widget=None,
                 label="None",
             ),
-            Radio(
-                value=self._value.PCA_REDUCTOR,
-                selected_value=self._value.dim_reducer_to_use,
-                widget=self.pca_option_widget,
-                label="PCA",
-            ),
+            # Radio(
+            #     value=self._value.PCA_REDUCTOR,
+            #     selected_value=self._value.dim_reducer_to_use,
+            #     widget=self.pca_option_widget,
+            #     label="PCA",
+            # ),
             Radio(
                 value=self._value.UMAP_REDUCTOR,
                 selected_value=self._value.dim_reducer_to_use,

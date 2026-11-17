@@ -38,10 +38,12 @@ def _run(task, primary=None, *configs, **kwargs):
     import logging
 
     root = logging.getLogger()
-    root.handlers[:] = (
-        []
-    )  # every task sets up its own handlers; prevents duplicated log lines
+    root.handlers[:] = []
     root.filters[:] = []
+    logging.Logger.manager.loggerDict.pop(getattr(primary, "module_name", None), None)
+    logging.Logger.manager.loggerDict.pop(
+        getattr(primary, "config_prop_name", None), None
+    )
 
     _setup_matplotlib()
 

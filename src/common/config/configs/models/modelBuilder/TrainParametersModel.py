@@ -26,7 +26,6 @@ class TrainParametersModel:
 
     BUFFER_MODES = [CUSTOM_BUFFER_MODE, ALL_SAMPLES_BUFFER_MODE]
 
-    run_training: bool = True
     single_type_count: int = 5677
     """Single type count."""
 

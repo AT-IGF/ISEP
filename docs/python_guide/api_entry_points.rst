@@ -1,3 +1,5 @@
+.. _python-api-entry-points:
+
 Public Python Entry Points
 ==========================
 
@@ -57,4 +59,4 @@ The functions return no value; results are saved to the paths given in the confi
 How configuration works
 -----------------------
 
-Each task reads the current settings, applies the given configuration objects and field overrides, saves the updated configuration in the active configuration directory, and runs. The ``ISEP_CONFIG_DIR`` environment variable sets the configuration directory, which allows keeping the  configuration across sessions.
+Each task reads the current settings, applies the given configuration objects and field overrides, saves the updated configuration in the configuration files in the *resources* directory, and runs. The saved settings are used by the following tasks, also in later sessions, see :doc:`reproducibility <reproducibility>`.

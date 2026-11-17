@@ -14,7 +14,8 @@ class TrainParametersModel:
     InputModelNames = InputModelNames
 
     pollen_types_binaries_paths: list[str] = field(default_factory=list)
-    """Samples directories. Every subdirectory of the given paths is read as a separate set of samples.
+    """Samples directories, absolute or relative to the resources directory. Every subdirectory of the
+    given paths is read as a separate set of samples.
     With ``with_labeled_samples`` enabled, subdirectories named as one of ``pollen_types`` are treated
     as labeled, the remaining ones as unlabeled."""
 

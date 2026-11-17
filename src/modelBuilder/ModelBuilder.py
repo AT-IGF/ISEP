@@ -99,6 +99,20 @@ def is_all_exist(path1, path2, path3):
     )
 
 
+def oversample_train_set(feature_models_train, single_type_count, train_ratio):
+    if single_type_count is None:
+        return feature_models_train
+    train_set_target_count = round(single_type_count * train_ratio)
+    if len(feature_models_train) >= train_set_target_count:
+        return feature_models_train
+    logging.getLogger().info(
+        f"Oversampling training set, real_samples={len(feature_models_train)}, generated_samples={train_set_target_count - len(feature_models_train)}"
+    )
+    return extend_list(
+        np.array(feature_models_train, dtype=object), train_set_target_count
+    ).tolist()
+
+
 def randomly_select(
     single_type_count, raw_data_all, oversample, path, reference_test_set=None
 ):
@@ -124,9 +138,8 @@ def randomly_select(
         if oversample == True:
             count_diff = single_type_count - random_count
             logger.warning(
-                f"'oversample' flag is true. Samples will be duplicated to fit single_type_count. Type:{raw_data_all[0].type}, missing count={count_diff}"
+                f"'oversample' flag is true. Training samples will be duplicated after the train/validation/test split. Type:{raw_data_all[0].type}, missing count={count_diff}"
             )
-            raw_data = extend_list(raw_data, single_type_count)
         else:
             logger.warning(
                 f"Single type count is lower than particles in given type by {100 - round(100*len(raw_data)/single_type_count,0)} %. Set will not be balanced. "
@@ -322,6 +335,16 @@ def get_models_to_learn(
                 filter_callback=_test_filter_callback,
                 config=config,
                 types_config=types_config,
+            )
+
+        if (
+            config.train_parameters.sampling_strategy
+            == config.train_parameters.OVERSAMPLE_STRATEGY
+        ):
+            feature_models_train = oversample_train_set(
+                feature_models_train,
+                single_type_count=single_type_count,
+                train_ratio=train_ratio if is_reference_set else 1 - validation_ratio,
             )
 
         feature_models_train = DatasetScaler.transform_dict_dataset(
@@ -521,6 +544,7 @@ def calibrate_model(trained_model: TrainedModel):
     else:
         logging.getLogger().info(f"Loading calibrated model, path={calibrator_path}")
         calibrator.calibrated_model = tf.keras.models.load_model(calibrator_path)
+        calibrator.load_temp_history(calibrator_path)
 
     if config.evaluate_calibration:
         logging.getLogger().info("Evaluating calibration")

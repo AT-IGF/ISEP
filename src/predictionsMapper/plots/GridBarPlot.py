@@ -63,16 +63,19 @@ class GridBarPlot:
         x = np.arange(num_categories)  # X positions for categories
         width = 0.8 / num_groups
 
+        n_rows = math.ceil(len(data_to_show.columns) / self.n_cols)
+        # height grows with rows, so titles and dates fit
+        fig_height = 2 + 3.5 * n_rows
         fig, axes = plt.subplots(
-            nrows=math.ceil(len(data_to_show.columns) / self.n_cols),
+            nrows=n_rows,
             ncols=self.n_cols,
-            figsize=(12, 4),
+            figsize=(15, fig_height),
             sharex=True,
             squeeze=False,
         )
 
-        # for ax in axes.flat[len(data_to_show.columns):]:
-        #     ax.set_visible(False)
+        for ax in axes.flat[len(data_to_show.columns) :]:
+            ax.set_visible(False)
 
         data_to_show, left_label_text = self.get_data_to_show(data_to_show_original)
         right_label_text = (
@@ -157,7 +160,16 @@ class GridBarPlot:
             bbox_to_anchor=(0.5, 0),
             frameon=False,
         )
-        fig.subplots_adjust(hspace=0.8, wspace=0.38, bottom=0.3, top=0.95, left=0.08)
+        # margins in inches: dates and legend below, titles above
+        # wspace fits the right axis of particles count next to the left axis of the next plot
+        fig.subplots_adjust(
+            hspace=0.8,
+            wspace=0.6,
+            bottom=2.6 / fig_height,
+            top=1 - 0.5 / fig_height,
+            left=0.08,
+            right=0.9,
+        )
         plt.ylim()
         plt_show(plt.gcf())
 
@@ -189,6 +201,8 @@ class GridBarPlot:
             "fontproperties": left_label.get_fontproperties(),
             "va": left_label.get_va(),
         }
+        # drawn below with fig.text, otherwise the label is doubled
+        left_label.set_visible(False)
         fig.text(
             x0,
             0.5,

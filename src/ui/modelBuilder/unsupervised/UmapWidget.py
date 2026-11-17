@@ -375,7 +375,7 @@ class UmapWidget(QWidget):
             self.config.target_enabled,
             label="Enable target",
             tooltip="When partially labeled data is used it allows to determine whether UMAP should focus more to fit the points to labeled data of to focus more on data.<br/><b>WARNING</b>: causes strong overfitting when to high, should be set with cautious. Overfitting tests required.\
-                <br/><b>WARNING2</b>: when option is selected, even when value is set to 0 it would still a little fot to the labels. In current solution setting target weight to 0 is equivalent of not passing labels.\
+                <br/><b>WARNING2</b>: when option is selected, even when value is set to 0 it would still a little fot to the labels.\
                 <br/><b>Advised</b>: keep this option disabled.",
             value_changed=singals.value_changed,
             children=[self.target_weight_widget, self.target_metric_widget],

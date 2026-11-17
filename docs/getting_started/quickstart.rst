@@ -68,7 +68,7 @@ into the following directory structure:
 
 The root directory can have any name. Each subdirectory represents a pollen class and contains its
 corresponding particle measurements. Subdirectory names are used as pollen type names in the configuration.
-The ``sample/PKL_Test.zip`` archive already has this structure, with the ``Alnus`` and ``ArrhinateRum``
+The small ``sample/PKL_Test.zip`` archive, intended for testing the installation, already has this structure, with the ``Alnus`` and ``ArrhinateRum``
 subdirectories.
 
 Running analysis
