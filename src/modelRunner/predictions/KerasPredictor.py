@@ -98,10 +98,12 @@ class KerasPredictor:
                     return model
                 except TypeError as te:
                     if "Could not locate function" in str(te):
-                        logging.getLogger().warning(f"Custom function missing during model load: {te}. Trying to load without custom functions.")
+                        logging.getLogger().warning(
+                            f"Custom function missing during model load: {te}. Trying to load without custom functions."
+                        )
                     else:
                         raise
-                    
+
             model = tf.keras.models.load_model(model_path, compile=False)
             self._logger.info(f"Running model: {model_path}")
             return model

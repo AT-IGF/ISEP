@@ -62,7 +62,7 @@ class SettigsWidget(QWidget):
             ],
             show_no_types_error=False,
             label="Pollen types to show",
-            tooltip="Labeled samples directories that will not take part in the training",
+            tooltip="Labeled samples directories whose particles are plotted. Required.",
         )
         self.filter_widget = FilterWidget(
             filter_path=self.config.filter_path, singals=singals

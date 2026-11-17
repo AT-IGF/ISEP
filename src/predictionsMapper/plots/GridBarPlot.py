@@ -48,7 +48,7 @@ class GridBarPlot:
     def show(self, frame_summary):
         frame_summary_original = frame_summary[:]
         data_to_show = frame_summary.drop(columns=[FROM_TIME_KEY, TO_TIME_KEY])
-        
+
         idx_to_drop = []
         for idx, data in enumerate(data_to_show):
             if not should_be_displayed(self.config.pollen_types, data):
@@ -68,13 +68,13 @@ class GridBarPlot:
             ncols=self.n_cols,
             figsize=(12, 4),
             sharex=True,
-            squeeze=False
+            squeeze=False,
         )
-        
+
         # for ax in axes.flat[len(data_to_show.columns):]:
         #     ax.set_visible(False)
-            
-        (data_to_show, left_label_text) = self.get_data_to_show(data_to_show_original)
+
+        data_to_show, left_label_text = self.get_data_to_show(data_to_show_original)
         right_label_text = (
             "Particles count" if self.bar_config.show_particle_count else None
         )
@@ -83,7 +83,9 @@ class GridBarPlot:
             col = data_to_show.columns[idx]
             current_tr = get_threshold(thresholds=self.config.thresholds, p_type=col)
             ax = axes[idx // self.n_cols, idx % self.n_cols]
-            ax.grid(True, axis='y', linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+            ax.grid(
+                True, axis="y", linestyle="--", linewidth=0.6, alpha=0.4, color="gray"
+            )
 
             colors, mask = self.get_colors(
                 frame_summary_original, col, Consts.PLOT_COLORS[idx]
@@ -106,13 +108,17 @@ class GridBarPlot:
                     color="tab:red",
                 )
 
-            if self.bar_config.is_months_of_expectance and np.sum(mask) != 0 and len(data_to_show_original.iloc[:, idx][mask == False]) != 0:
+            if (
+                self.bar_config.is_months_of_expectance
+                and np.sum(mask) != 0
+                and len(data_to_show_original.iloc[:, idx][mask == False]) != 0
+            ):
                 ax3 = ax.twinx()
                 highest_not_expected_times_1 = 1 * max(
                     data_to_show_original.iloc[:, idx][mask == False]
                 )
                 ax3.axhline(highest_not_expected_times_1, color="tab:green")
-                ax3.set_ylim(ax2.get_ylim())
+                ax3.set_ylim(ax.get_ylim())
 
                 ax.bar(
                     (x + (width / 2)),
@@ -132,7 +138,9 @@ class GridBarPlot:
         )
         for idx, ax in enumerate(axes.flat):
             ax.tick_params(axis="x", labelrotation=75)
-            ax.grid(True, axis='y', linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+            ax.grid(
+                True, axis="y", linestyle="--", linewidth=0.6, alpha=0.4, color="gray"
+            )
             for label in ax.get_xticklabels():
                 label.set_horizontalalignment("right")
                 label.set_rotation_mode("anchor")
@@ -155,7 +163,9 @@ class GridBarPlot:
 
     def get_data_to_show(self, data_to_show_original):
         if self.bar_config.plot_type == self.bar_config.PARTICLES_PER_METER_CUBED:
-            data_to_show = calculate_p_per_m3(data_to_show_original, self.config.split_timespan)
+            data_to_show = calculate_p_per_m3(
+                data_to_show_original, self.config.split_timespan
+            )
             left_label_text = "Pollen P/m³"
         elif (
             self.bar_config.plot_type

@@ -9,10 +9,18 @@ from src.common.config.configs.models.predictionsMapper.PlotSettings import (
 
 @dataclass()
 class PlotSettingsModel:
-    BAR_STYLE_PLOT = "BAR_STYLE_PLOT"
-    LINE_STYLE_PLOT = "LINE_STYLE_PLOT"
+    """Plot settings of the summarized predictions."""
 
-    plot_style: str = BAR_STYLE_PLOT
+    BAR_STYLE_PLOT = "BAR_STYLE_PLOT"
+    """Bar."""
+
+    LINE_STYLE_PLOT = "LINE_STYLE_PLOT"
+    """Line."""
+
+    plot_style: str | None = BAR_STYLE_PLOT
+    """Plot style. The way in which the plot is presented: bar or line plot. ``None`` disables plotting;
+    the summary is still saved to the output file."""
+
     line_plot_settings: LinePlotSettingsModel = field(
         default_factory=LinePlotSettingsModel
     )

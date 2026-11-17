@@ -36,7 +36,7 @@ class KerasUnsupervisedTrainer:
                     self._config.train_parameters.learningModels
                 ),
                 get_train_file_path=self._config.get_train_file_path,
-                get_validation_file_path=self._config.get_train_file_path,
+                get_validation_file_path=self._config.get_validation_file_path,
                 binary_dir_paths=binary_dir_paths,
                 batch_size=batch_size,
             ),

@@ -1,4 +1,123 @@
 {
-    "dataViewer": {},
-    "allParticlesAvgs": {}
+    "dataViewer": {
+        "plots_save_path": "dataViewer/out",
+        "spectrum_plot": {
+            "show": true,
+            "boundaries": {
+                "exclude_lower_than": null,
+                "exclude_higher_than": null
+            }
+        },
+        "pollen_types": [
+            "Alnus",
+            "ArrhinateRum"
+        ],
+        "pollen_types_to_show": [
+            "Alnus",
+            "ArrhinateRum"
+        ]
+    },
+    "allParticlesAvgs": {
+        "metric_to_process": "scattering",
+        "single_type_count": 5000,
+        "filter_path": null,
+        "pollen_types": [
+            "Alnus",
+            "ArrhinateRum"
+        ],
+        "lifetime": {
+            "channels": [
+                1
+            ],
+            "histogram": {
+                "plot": false,
+                "operation": "max",
+                "lower_than": null,
+                "higher_than": null,
+                "q_min": null,
+                "q_max": null,
+                "cutom_line": null,
+                "display_mode": "ALL_IN_ONE",
+                "display_as_grid": false,
+                "share_y_grid": true,
+                "n_cols": 3,
+                "hist_bins": 100
+            },
+            "plot_combined": {
+                "plot": false,
+                "q_min": null,
+                "q_max": null,
+                "n_cols": 4,
+                "y_min": -500,
+                "y_max": 2220
+            }
+        },
+        "spectrum": {
+            "channels": [
+                1
+            ],
+            "histogram": {
+                "plot": false,
+                "operation": "max",
+                "lower_than": null,
+                "higher_than": null,
+                "q_min": null,
+                "q_max": null,
+                "cutom_line": null,
+                "display_mode": "ALL_IN_ONE",
+                "display_as_grid": false,
+                "share_y_grid": true,
+                "n_cols": 3,
+                "hist_bins": 100
+            },
+            "plot_combined": {
+                "plot": false,
+                "q_min": null,
+                "q_max": null,
+                "n_cols": 4,
+                "y_min": -500,
+                "y_max": 2220
+            }
+        },
+        "scattering": {
+            "histogram": {
+                "plot": true,
+                "operation": "max",
+                "lower_than": null,
+                "higher_than": null,
+                "q_min": null,
+                "q_max": null,
+                "cutom_line": null,
+                "display_mode": "ALL_IN_ONE",
+                "display_as_grid": false,
+                "share_y_grid": true,
+                "n_cols": 3,
+                "hist_bins": 5
+            }
+        },
+        "size": {
+            "histogram": {
+                "plot": false,
+                "operation": "max",
+                "lower_than": null,
+                "higher_than": null,
+                "q_min": null,
+                "q_max": null,
+                "cutom_line": null,
+                "display_mode": "ALL_IN_ONE",
+                "display_as_grid": false,
+                "share_y_grid": true,
+                "n_cols": 3,
+                "hist_bins": 100
+            }
+        }
+    },
+    "plots_save_path": "dataViewer/out",
+    "spectrum_plot": {
+        "show": true,
+        "boundaries": {
+            "exclude_lower_than": null,
+            "exclude_higher_than": null
+        }
+    }
 }

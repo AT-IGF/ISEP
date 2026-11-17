@@ -146,7 +146,7 @@ class ClusteringSelectionMethodWidget(QWidget):
             label="Cluster selection method:",
             layout="Horizontal",
             sub_widgets_layout="Inline",
-            tooltip="Method used to decide which clusters should stay and which should be rejected from the cluster tree. EOM (Excess of Mass) - favors more stable densities, Leaf - picks three leaf nodes, and prefers higher granulation",
+            tooltip="Method used to decide which clusters should stay and which should be rejected from the cluster tree. EOM (Excess of Mass) - favors more stable densities, Leaf - picks the tree leaf nodes and prefers higher granulation",
         )
 
         layoutV = QHBoxLayout()
@@ -286,7 +286,7 @@ class HdbscanWidget(QWidget):
             singals,
             val_type=list[int],
             suffix_label=None,
-            tooltip="Number of samples in the neighborhood of the sample to be considered as a cluster.",
+            tooltip="Number of samples in the neighborhood of a point for it to be considered a core point.",
             width=100,
             bottom=0,
             top=Consts.INT_MAX,

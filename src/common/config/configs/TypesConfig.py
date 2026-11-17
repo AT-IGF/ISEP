@@ -7,7 +7,12 @@ from src.common import Consts
 
 @dataclass()
 class TypesConfig(ConfigModelBase):
+    """General pollen types shared by all ISEP modules."""
+
     pollen_types: list[str] = field(default_factory=list)
+    """Pollen types, named as the labeled sub-folders in ``zip_files_rel_path``. The order defines the class
+    index of the supervised model. The list cannot contain duplicates."""
+
     config_prop_name = "types"
     module_name = "general"
 

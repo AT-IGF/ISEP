@@ -36,7 +36,7 @@ def get_particles_predictions(config: PredictionsMapperConfig, file: File):
 
     if config.preview.is_row_skipping_enabled():
         logging.getLogger().warning(
-            f"Measurements skipping enabled. Every n-th row will be skipped. n-th_row={config.preview.keep_every_nth_row}"
+            f"Measurements skipping enabled. Every n-th row will be keept. n-th_row={config.preview.keep_every_nth_row}"
         )
 
     df = pd.read_csv(
@@ -48,10 +48,12 @@ def get_particles_predictions(config: PredictionsMapperConfig, file: File):
         ),
     )
     for parse_date in parse_dates:
-        converted = pd.to_datetime(df[parse_date], errors='coerce')
+        converted = pd.to_datetime(df[parse_date], errors="coerce")
         bad = converted.isna()
         if bad.any():
-            logging.getLogger().warning(f"{parse_date} column: dropped {bad.sum()} row(s) with invalid timestamps. Line indexes={df.index[bad].tolist()}")
+            logging.getLogger().warning(
+                f"{parse_date} column: dropped {bad.sum()} row(s) with invalid timestamps. Line indexes={df.index[bad].tolist()}"
+            )
         df[parse_date] = converted
         df = df[~bad]
 
@@ -60,8 +62,8 @@ def get_particles_predictions(config: PredictionsMapperConfig, file: File):
             try:
                 df[col] = pd.to_numeric(df[col])
             except (ValueError, TypeError):
-                pass 
-        
+                pass
+
     return df
 
 
@@ -114,7 +116,7 @@ def get_threshold_particles_between_timespan(
     final_count = len(data_frame)
     removed_rows = initial_count - final_count
     frame = []
-    frame_sum=[]
+    frame_sum = []
     if removed_rows > 0:
         logging.getLogger().info(
             f"Duplicated datatimes found and removed. Duplicated rows count={removed_rows}"
@@ -162,10 +164,12 @@ def get_threshold_particles_between_timespan(
                     seconds=config.split_timespan.seconds,
                 )
         except Exception as e:
-            logging.getLogger().error(f"Error in row={idx} occurred; check it may contain corrupted data. error={e}")
+            logging.getLogger().error(
+                f"Error in row={idx} occurred; check it may contain corrupted data. error={e}"
+            )
             raise e
-    
-    # add last frame  
+
+    # add last frame
     if len(frame) != 0:
         to_time = measurement_time
         frame_sum = np.sum(frames, axis=0).tolist()
@@ -175,7 +179,6 @@ def get_threshold_particles_between_timespan(
         frame_sum = np.sum(frames, axis=0).tolist()
         frame = [from_time, frame_max_time] + frame_sum
         frames_by_span.append(frame)
-        
 
     return frames_by_span
 

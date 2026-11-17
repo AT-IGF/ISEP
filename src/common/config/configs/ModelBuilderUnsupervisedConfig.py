@@ -21,6 +21,11 @@ class ModelBuilderUnsupervisedConfig(ConfigModelBase):
     MODEL_EXTENSION = "tfrecord"
 
     model_save_name: str = "hello_unsupervised_world"
+    """Train model name. The model is saved as ``<model_save_name>_model.h5``. When the model was already
+    trained, the training can be continued by adding ``_epoch<last saved epoch>`` at the end of the name.
+    Epoch progress is saved under *unsupervised/KerasTrainer/<model_save_name>*, whereas the final model
+    is saved in the root path."""
+
     train_parameters: TrainParametersModel = field(default_factory=TrainParametersModel)
     cluster_parameters: ClusterParameterModel = field(
         default_factory=ClusterParameterModel
@@ -187,19 +192,13 @@ class ModelBuilderUnsupervisedConfig(ConfigModelBase):
             )
 
     def get_hdbscan_path(self):
-        return PathHelper.join_rel_path(
-            Consts.RESOURCES_PATH, f"unsupervised/hdbscan"
-        )
+        return PathHelper.join_rel_path(Consts.RESOURCES_PATH, f"unsupervised/hdbscan")
 
     def get_umap_path(self):
-        return PathHelper.join_rel_path(
-            Consts.RESOURCES_PATH, f"unsupervised/umap"
-        )
+        return PathHelper.join_rel_path(Consts.RESOURCES_PATH, f"unsupervised/umap")
 
     def get_kmeans_path(self):
-        return PathHelper.join_rel_path(
-            Consts.RESOURCES_PATH, f"unsupervised/kmeans"
-        )
+        return PathHelper.join_rel_path(Consts.RESOURCES_PATH, f"unsupervised/kmeans")
 
     def get_latent_vectors_path(self):
         return PathHelper.join_rel_path(

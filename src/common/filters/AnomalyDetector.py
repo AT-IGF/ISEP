@@ -3,11 +3,10 @@ import numpy as np
 import tensorflow as tf
 from src.common.tensorflow import InputModelNames
 
-
 class AnomalyDetector:
     CUSTOM_OBJECTS = {
         # For losses (if any MSE-based losses are used)
-        'mse': tf.keras.losses.mse,
+        'mse': tf.keras.losses.MeanSquaredError,
         # For metrics (critical for your model)
         'lifetime_unsup_decoder_mse': tf.keras.metrics.MeanSquaredError,
         'scattering_unsup_decoder_mse': tf.keras.metrics.MeanSquaredError,

@@ -34,11 +34,12 @@ Issues = "https://github.com/AT-IGF/ISEP/issues"
 files = ["requirements.txt"]
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src", "resources"]
+only-include = ["src", "isep.py", "resources"]
 
 [tool.hatch.build.targets.sdist]
 only-include = [
     "src",
+    "isep.py",
     "resources",
     "README.md",
     "requirements.txt",
@@ -49,3 +50,6 @@ only-include = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-v -ra"
+
+[project.scripts]
+isep-ui = "isep.ui:handle"

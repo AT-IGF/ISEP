@@ -57,22 +57,24 @@ class PlotWidget(QWidget):
         )
 
         self.plot_modifications_section_widget = SectionWidget(
-            "Data filtering", margins=(10, 10, 15, 0)
+            "Reference lines", margins=(10, 10, 15, 0)
         )
         self.q_min_widget = LabelValueWidget(
-            "Exclude percentiles lower than:",
+            "Lower percentile:",
             config.q_min,
             singals,
             val_type=int | None,
             suffix_label="pth",
+            tooltip="Draws the given percentile of the signal of every class as a dashed curve.",
             margins=(10, 10, 0, 0),
         )
         self.q_max_widget = LabelValueWidget(
-            "Exclude percentiles higher than:",
+            "Higher percentile:",
             config.q_max,
             singals,
             val_type=int | None,
             suffix_label="pth",
+            tooltip="Draws the given percentile of the signal of every class as a dashed curve.",
             margins=(10, 10, 0, 0),
         )
 

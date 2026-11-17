@@ -265,7 +265,7 @@ class UnsupervisedWidget(QWidget):
         self.run_unsupervised_widget = MeasurementWidget(
             self._value.run_unsupervised,
             label="Cluster filtering",
-            tooltip="Optional. Use output models from the Model builder -> Unsupervised section, used for samples removal when do not fit to the specified cluster",
+            tooltip="Optional. Uses output models from the unsupervised training to remove particles whose cluster is not mapped to their predicted pollen type.",
             value_changed=singals.value_changed,
             children=[
                 self.autoencoder_path_widget,

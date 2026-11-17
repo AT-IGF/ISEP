@@ -102,7 +102,7 @@ def print_summary_n_clusters(predicted_labels, labels):
 
 def get_centroids(labels, latent_vectors):
     config = Config.get(ModelBuilderUnsupervisedConfig).cluster_parameters.kmeans
-    if config.CENTROIDS_BY_CLASS:
+    if config.centroids_mode == config.CENTROIDS_BY_CLASS:
         logging.getLogger().info("Kmeans centroids by class")
         labels = np.array(labels)
         known_mask = labels != -1

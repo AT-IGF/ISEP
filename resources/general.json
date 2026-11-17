@@ -1,4 +1,11 @@
 {
-    "paths": {},
-    "types": {}
+    "types": {
+        "pollen_types": [
+            "Alnus",
+            "ArrhinateRum"
+        ]
+    },
+    "paths": {
+        "zip_files_rel_path": "E:/PKL_Test"
+    }
 }

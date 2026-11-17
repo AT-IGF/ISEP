@@ -273,18 +273,7 @@ def get_pollen_types(
     random_state = np.random.RandomState(seed=42)
 
     is_test_model = test_model is not None
-    if is_test_model:
-        logger.info(
-            "Predefined test set found. Test samples will be excluded from selection set."
-        )
-    else:
-        logger.warning(
-            "Predefined test set NOT found. Samples will be taken from available data."
-        )
 
-    # raw_data_by_type = prioritize_paths(
-    #     raw_data_by_type, []
-    # )
     for path in raw_data_by_type:
         if pollen_types is not None and get_pollen_type_from_path(path) not in pollen_types:
             continue

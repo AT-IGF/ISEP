@@ -52,7 +52,7 @@ class EarlyStoppingWidget(QWidget):
         self.enabled_widget = MeasurementWidget(
             config.enabled,
             label="Is early stopping enabled",
-            tooltip="Allows to stop model training earlier based on conditions",
+            tooltip="Allows to decrease the learning rate when training stops progressing",
             value_changed=signals.value_changed,
             children=[self.patience_widget, self.min_delta_widget],
             layout="Vertical",

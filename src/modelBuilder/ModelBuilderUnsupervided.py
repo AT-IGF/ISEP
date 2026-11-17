@@ -5,7 +5,7 @@ from src.modelBuilder.keras.callbacks import LogCallback
 from src.common import Consts
 from src.common.filters.ExternalRunner import get_filter
 from src.modelBuilder.models import LearnModel
-from src.common.filters import AnomalyDetector
+from src.common.filters.AnomalyDetector import AnomalyDetector
 from src.common.config import Config, ModelBuilderUnsupervisedConfig
 from src.common.tensorflow.Settings import set_tf_settings
 

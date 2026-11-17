@@ -65,6 +65,13 @@
             "justMyCode": false
         },
         {
+            "name": "testing",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "testing",
+            "justMyCode": false
+        },
+        {
             "name": "Python: Debug Tests",
             "type": "debugpy",
             "request": "launch",

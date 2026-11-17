@@ -1,5 +1,4 @@
 from .SplitTimespanModel import SplitTimespanModel
-from .PollenTypesSelectionModel import PollenTypesSelectionModel
 from .ThresholdsModel import ThresholdsModel
 from .PlotSettingsModel import PlotSettingsModel
 from .PreviewModel import PreviewModel

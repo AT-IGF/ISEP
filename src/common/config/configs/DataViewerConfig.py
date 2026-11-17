@@ -7,23 +7,39 @@ from src.common import Consts
 
 @dataclass()
 class DataViewerConfig(ConfigModelBase):
+    """Configuration of single particle plots of the selected modalities."""
+
     plots_save_path: str = "dataViewer/out"
+    """Directory in which the plots are saved, relative to the resources directory. Every modality is saved
+    in its own subdirectory."""
+
     same_type_count: int = 2
+    """Count of samples from the same type to be displayed."""
+
     filter_path: str | None = None
+    """Filter path. Path to the file that will be used for samples filtration. Example filters are
+    available in *resources/common/filters*."""
+
     spectrum_plot: SingleSamplePlotModel = field(default_factory=SingleSamplePlotModel)
+    """Single particle fluorescence spectrum plot."""
+
     lifetime_plot: SingleSamplePlotModel = field(default_factory=SingleSamplePlotModel)
+    """Single particle fluorescence lifetime plot."""
+
     scattering_plot: SingleSamplePlotModel = field(
         default_factory=SingleSamplePlotModel
     )
+    """Single particle scattering image plot."""
+
     show_plots: bool = True
-    """Randomizes particle type that will be processed.
-    If '0' every particle will be taken
-    If '0.5' every second
-    Raises:
-        TypeError: Value is not between 0-1
-    """
+    """Shows the plots in separate windows. Plots are saved in ``plots_save_path`` regardless of this
+    option."""
+
     rand_0_1_frequency: float = 0
+
     pollen_types_to_show: list[str] = field(default_factory=list)
+    """Pollen types whose particles are plotted."""
+
     module_name = "dataViewer"
     config_prop_name = "dataViewer"
 
