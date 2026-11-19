@@ -7,8 +7,10 @@ Library created for handling Rapid-E input files, designed for:
   - Scaler - fitting scaler to the available dataset
   - Supervised - train supervised convolutional neural network (CNN)
   - Unsupervised - train unsupervised convolutional autoencoder
-- Model runner - run trained model on real-word data
+- Model runner - run trained model on real-world data
 - Predictions mapper - visualize model predictions
+
+Full documentation available here: https://isep.readthedocs.io
 
 ## Repository construction
 - <i>resources</i> - place for configuration files and data to process
