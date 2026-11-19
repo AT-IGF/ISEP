@@ -20,6 +20,8 @@ from src.common.config.configs.models.modelBuilderUnsupervised.AnomalyDetectorMo
 
 @dataclass
 class ClusterParameterModel:
+    """Clustering of the latent space."""
+
     run_clustering: bool = False
     hdbscan: HdbscanModel = field(default_factory=HdbscanModel)
     umap: UmapModel = field(default_factory=UmapModel)

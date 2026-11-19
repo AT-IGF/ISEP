@@ -36,7 +36,7 @@ class KerasUnsupervisedTrainer:
                     self._config.train_parameters.learningModels
                 ),
                 get_train_file_path=self._config.get_train_file_path,
-                get_validation_file_path=self._config.get_train_file_path,
+                get_validation_file_path=self._config.get_validation_file_path,
                 binary_dir_paths=binary_dir_paths,
                 batch_size=batch_size,
             ),
@@ -50,10 +50,6 @@ class KerasUnsupervisedTrainer:
         logging.getLogger().info(
             "Plotting history plot. To turn it off set 'verify_model.show_history_plot to false."
         )
-        import matplotlib
-
-        matplotlib.use("TkAgg")
-
         epochs = range(1, len(history["learning_rate"]) + 1)
         for key, values in history.items():
             if "size" in key:

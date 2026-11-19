@@ -96,8 +96,8 @@ class CalibrationWidget(QWidget):
         self.evaluate_calibration_widget = MeasurementWidget(
             self.config.evaluate_calibration,
             label="Evaluate calibration",
-            tooltip="Divides model into bins, shows what model predicted (acc) and in what was the ratio of true labels (conf)<br/>\
-                E.g. acc = 0.35 conf = 0.4. Model is underconfident.<br/>\
+            tooltip="Divides predictions into bins and compares the mean predicted probability (conf) with the ratio of true labels (acc)<br/>\
+                E.g. acc = 0.35 conf = 0.4 means the model is overconfident.<br/>\
                 Class wise - what accuracy for specific label confidence<br/>\
                 Top label - what accuracy for top label confidence",
             value_changed=singals.value_changed,
@@ -131,7 +131,7 @@ class CalibrationWidget(QWidget):
         self.plot_reliability_curves_widget = MeasurementWidget(
             self.config.plot_reliability_curves,
             label="Plot reliability curves",
-            tooltip="Indicates how reliable the model is. If below XY line - underconfident, above - overconfident.<br/><br/>\
+            tooltip="Indicates how reliable the model is. If below XY line - overconfident, above - underconfident.<br/><br/>\
                 Class wise - plots for every class. How reliable is particular class prediction.<br/>\
                 Top label - selected class with the highest prediction",
             children=[self.reliability_mode_widget],
@@ -191,7 +191,7 @@ class CalibrationWidget(QWidget):
         self.calibration_widget = MeasurementWidget(
             self.config.run_calibration,
             label="Run calibration",
-            tooltip="Calibrate trained model with the use of temperature scaling regularization technique. Takes output logits and with the use of neural network align the weights.",
+            tooltip="Calibrate the trained model with the use of temperature scaling. A temperature is learned for every class, and the output logits are divided by it before softmax.",
             value_changed=self.calibration_widget_value_changed,
             children=[
                 model_name_layout_widget,

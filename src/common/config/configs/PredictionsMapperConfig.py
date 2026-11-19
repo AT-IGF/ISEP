@@ -12,11 +12,21 @@ from src.common.config.configs.models.predictionsMapper import (
 
 @dataclass()
 class PredictionsMapperConfig(ConfigModelBase):
+    """Configuration of summarizing predictions over time spans and presenting them as plots."""
 
     file_to_process_rel_path: str | None = None
+    """File to process. Model runner threshold 0 output file, relative to the resources directory.
+    Required."""
+
     save_path_rel_path: str = "predictionsMapper/out"
+    """Save directory. Result output directory, relative to the resources directory."""
+
     split_timespan: SplitTimespanModel = field(default_factory=SplitTimespanModel)
+
     pollen_types: list[str] = field(default_factory=list)
+    """Pollen types shown on the plots. Only the listed types are plotted; the summed counts of all types
+    are still saved in the output file."""
+
     thresholds: ThresholdsModel = field(default_factory=ThresholdsModel)
     plot_settings: PlotSettingsModel = field(default_factory=PlotSettingsModel)
     preview: PreviewModel = field(default_factory=PreviewModel)

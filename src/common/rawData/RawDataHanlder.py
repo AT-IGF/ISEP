@@ -56,7 +56,7 @@ def get_raw_data(
     raw_data_models_from_file_count: int | None = None,
     should_append_callback: Callable[[RawData], bool] = None,
 ) -> list[RawData]:
-    
+
     try:
         raw_data: list[RawData] = convert(
             path=file.get_file_path(),
@@ -254,7 +254,7 @@ def get_pollen_types(
     should_append_callback: Callable[[RawData], bool] = None,
     count_mode: None | SingleTypeCountMode = SingleTypeCountMode.STOP_ON_COUNT,
     oversample=False,
-    pollen_types=None
+    pollen_types=None,
 ) -> list[RawData]:
     logger = logging.getLogger()
     if types_to_exclude is None:
@@ -273,22 +273,14 @@ def get_pollen_types(
     random_state = np.random.RandomState(seed=42)
 
     is_test_model = test_model is not None
-    if is_test_model:
-        logger.info(
-            "Predefined test set found. Test samples will be excluded from selection set."
-        )
-    else:
-        logger.warning(
-            "Predefined test set NOT found. Samples will be taken from available data."
-        )
 
-    # raw_data_by_type = prioritize_paths(
-    #     raw_data_by_type, []
-    # )
     for path in raw_data_by_type:
-        if pollen_types is not None and get_pollen_type_from_path(path) not in pollen_types:
+        if (
+            pollen_types is not None
+            and get_pollen_type_from_path(path) not in pollen_types
+        ):
             continue
-        
+
         if get_pollen_type_from_path(path) in types_to_exclude:
             logger.info(f"Path skipped due to be in types_to_exclude. Path={path}")
             continue

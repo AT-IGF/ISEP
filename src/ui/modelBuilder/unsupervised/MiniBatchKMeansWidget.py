@@ -44,7 +44,7 @@ class MiniBatchKMeansWidget(QWidget):
             singals,
             val_type=list[float],
             suffix_label=None,
-            tooltip="Outputs top clusters within given threshold per every class. For example: a class is defined by clusters 1, 3 and 5; clusters are sorted by count and if fits the percentage cluster is printed.",
+            tooltip="For every input directory, clusters are sorted by particle count and the top clusters are listed until they cover the given fraction of the directory's particles.",
             width=200,
             bottom=0,
             top=1,

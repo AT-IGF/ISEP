@@ -31,7 +31,7 @@ class SpectrumWidget(QWidget):
             singals,
             tooltip="Florescence spectral ranges measured after n nanoseconds interval, where intervals are described as:\
                 <ul>\
-                <li>1 - 0 nm</li>\
+                <li>1 - 0 ns</li>\
                 <li>2 - 500 ns</li>\
                 <li>3 - 1000 ns</li>\
                 <li>4 - 1500 ns</li>\

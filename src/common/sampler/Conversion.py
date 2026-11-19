@@ -5,8 +5,10 @@ import pickle
 from typing import Generator
 
 from src.core.files.models import File
-import src.common.sampler.RawDataBase as _rdb
+from importlib import import_module
 import sys
+
+_rdb = import_module("src.common.sampler.RawDataBase")
 sys.modules['RawDataBase'] = _rdb
 from src.common.rawData.Signal.RawDataAdapter import map_to_raw_data
 

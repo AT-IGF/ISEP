@@ -1,8 +1,6 @@
 import logging
 
-import json
 import joblib
-import pickle
 from functools import partial
 from sklearn.decomposition import PCA
 import tensorflow as tf
@@ -10,7 +8,7 @@ from src.core.json import get_list_int_mapping
 from src.core import File, PathHelper
 from src.common import Consts
 from src.common.config import Config
-from src.common.config.configs import ModelRunnerConfig, TypesConfig
+from src.common.config.configs import ModelRunnerConfig
 from src.modelBuilder.optimizers.TemperatureScaling import (
     TemperatureScalingLayer,
 )  # TODO: REF
@@ -18,7 +16,6 @@ from src.common.tensorflow import InputModelNames
 from src.common.rawData.Signal import RawData
 from src.common.rawData.features.FeaturesHandler import FeaturesHandler
 from src.modelRunner.predictions.Prediction import Prediction
-from src.modelRunner.predictions.datasetHandler import get_unlabeled_dataset
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
 from src.modelBuilder.datasetHandler import DatasetScaler
@@ -28,7 +25,6 @@ import umap
 from collections import Counter
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import KMeans
-import warnings
 
 
 class KerasPredictor:
@@ -52,7 +48,7 @@ class KerasPredictor:
 
     def __init__(self, model_path: File, classes: list[str]) -> None:
         self.config = Config.get(ModelRunnerConfig)
-        self.pollen_types = Config.get(TypesConfig).pollen_types
+        self.pollen_types = classes
         self.custom_objects = {
             "mse": tf.keras.losses.mse,
             "lifetime_unsup_decoder_mse": tf.keras.metrics.MeanSquaredError,
@@ -66,7 +62,7 @@ class KerasPredictor:
             model_path,
             custom_objects={
                 "TemperatureScalingLayer": partial(
-                    TemperatureScalingLayer, classes_count=15
+                    TemperatureScalingLayer, classes_count=len(classes)
                 )
             },
         )
@@ -98,30 +94,37 @@ class KerasPredictor:
                     return model
                 except TypeError as te:
                     if "Could not locate function" in str(te):
-                        logging.getLogger().warning(f"Custom function missing during model load: {te}. Trying to load without custom functions.")
+                        logging.getLogger().warning(
+                            f"Custom function missing during model load: {te}. Trying to load without custom functions."
+                        )
                     else:
                         raise
-                    
+
             model = tf.keras.models.load_model(model_path, compile=False)
             self._logger.info(f"Running model: {model_path}")
             return model
 
     def cluster_filter(self, y_preds, clusters):
         y_preds_filtered = []
+        kept_indices = []
         for idx, y_pred in enumerate(y_preds):
             particle_idex = y_pred.argmax()
             particle_name = self.pollen_types[particle_idex]
-            allowed_clusters = self.clusters[particle_name]
+            allowed_clusters = self.clusters.get(particle_name, [])
             cluster = clusters[idx]
             if cluster in allowed_clusters:
-                y_preds_filtered.append(y_preds)
+                y_preds_filtered.append(y_pred)
+                kept_indices.append(idx)
 
         self._logger.info(
             f"Left after cluster filtering count={len(y_preds_filtered)}/{len(y_preds)}"
         )
-        return y_preds_filtered
+        return y_preds_filtered, kept_indices
 
     def lazy_load_attr(self, attr, path):
+        path = PathHelper.get_absolute_path(
+            Consts.RESOURCES_PATH, path, raise_on_not_found=False
+        )
         value = getattr(self, attr, None)
         if value == None and value != "Error":
             if PathHelper.is_file_exists(path):
@@ -140,13 +143,20 @@ class KerasPredictor:
 
     def reduce_dimensions_when_reducer_set(self, raw_data_scaled):
         def run_predict():
-            model = self.get_keras_model(
-                self.config.unsupervised.autoencoder_path, self.custom_objects
+            autoencoder_path = PathHelper.get_absolute_path(
+                Consts.RESOURCES_PATH,
+                self.config.unsupervised.autoencoder_path,
+                raise_on_not_found=False,
+            )
+            model = self.get_keras_model(autoencoder_path, self.custom_objects)
+
+            from src.modelBuilder.keras.KerasUnsupervisedModelsCombiner import (
+                get_latent_layer,
             )
 
             self._encoder = tf.keras.models.Model(
                 inputs=model.input,
-                outputs=model.get_layer(Consts.AUTOENCODER_LATENT_LAYER_NAME).output,
+                outputs=get_latent_layer(model).output,
             )
 
             return self._encoder.predict(raw_data_scaled)
@@ -156,16 +166,30 @@ class KerasPredictor:
         if dim_reducer.dim_reducer_to_use == dim_reducer.UMAP_REDUCTOR:
             self.lazy_load_attr("_umap", dim_reducer.umap.path)
             if self.is_valid(self._umap):
+                from src.modelBuilder.dataInspectors.helpers.Normalization import (
+                    normalize_data,
+                )
+
+                latent_vectors = normalize_data(
+                    latent_vectors,
+                    normaliation=self.config.unsupervised.dim_reducer.umap.pre_umap_normalization,
+                )
                 return self._umap.transform(latent_vectors)
         if dim_reducer.dim_reducer_to_use == dim_reducer.PCA_REDUCTOR:
-            pca = PCA(n_components=dim_reducer.pca.components, random_state=42)
-            return pca.fit_transform(latent_vectors)
+            # pca = PCA(n_components=dim_reducer.pca.components, random_state=42)
+            # return pca.fit_transform(latent_vectors)
+            raise NotImplementedError(
+                "PCA dimensionality reduction is not supported in model inference yet. Use UMAP or no reducer."
+            )
 
         return latent_vectors
 
     def load_cluster_mapping(self, mapping_path):
         if hasattr(self, "clusters"):
             return
+        mapping_path = PathHelper.get_absolute_path(
+            Consts.RESOURCES_PATH, mapping_path, raise_on_not_found=False
+        )
         mapping = get_list_int_mapping(
             mapping_path=mapping_path, ref_keys=self.pollen_types
         )
@@ -290,7 +314,8 @@ class KerasPredictor:
         y_preds = self._keras_model.predict(raw_data_scaled, verbose=0)
 
         if clusters is not None:
-            y_preds = self.cluster_filter(y_preds, clusters)
+            y_preds, kept_indices = self.cluster_filter(y_preds, clusters)
+            raw_data_set = [raw_data_set[i] for i in kept_indices]
 
         preds: list[Prediction] = self.map_preds_to_model(y_preds, raw_data_set)
 

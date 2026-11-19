@@ -16,21 +16,45 @@ from pathlib import Path
 
 @dataclass
 class ModelBuilderConfig(ConfigModelBase):
+    """Configuration of supervised CNN training, calibration and evaluation."""
+
     MODEL_SUFFIX = "model"
     MODEL_EXTENSION = "h5"
     REFS_EXTENSION = "tfrecord"
     KERAS_EXTENSION = "keras"
 
     model_save_name: str = "hello_world"
+    """Train model name. The model is saved as ``<model_save_name>_model.h5``."""
+
     test_model_name: str | None = "hello_world_test_model"
+    """Cache files namespace, stored as ``<namespace>_test_model``. Namespace under which cache files are
+    created in cache dir. When another models are created samples will be taken from this namespace.
+    Serves for comparison purposes between individual models. Files in cache dir are created in
+    following convention: ``<namespace>_<pollen type>_test_reference_to_scale.tfrecord``."""
+
     excludeTypes: list[str] = field(default_factory=list)
+    """Pollen types to exclude."""
+
     learningModels: list[str] = field(
-        default_factory=lambda: InputModelNames.TRAIN_MODELS
+        default_factory=lambda: list(InputModelNames.TRAIN_MODELS)
     )
+    """Input modalities. Model inputs used for training and further for prediction purposes. Size modality
+    is calculated based on the scattering, no additional input is needed."""
+
     pollen_types_cache_rel_path: str | None = "supervised/cache"
+    """Processed files cache dir. Place in which train, test, validation sets will be saved."""
+
     run_training: bool = True
+    """Run training."""
+
     filter_rel_path: str | None = None
+    """Filter path. Path to the file that will be used for samples filtration. Example filters are
+    available in *resources/common/filters*. Note: for best match the same filter should be used for
+    both the scaler and the trained model."""
+
     scaler_path: str | None = None
+    """Scaler path. Fitted scaler file path from the Scaler tab."""
+
     summaries: SummaryModel = field(default_factory=SummaryModel)
     train_parameters: TrainParametersModel = field(default_factory=TrainParametersModel)
     calibration: CalibrationModel = field(default_factory=CalibrationModel)

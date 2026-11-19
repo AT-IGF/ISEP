@@ -107,7 +107,7 @@ def handle():
     setup_logger(ModelBuilderScalerConfig.config_prop_name)
     logging.getLogger().info("Started - scaler")
     config = Config().get(ModelBuilderScalerConfig)
-    subdirs = get_learn_dirs(config.pollen_types_binaries_paths)
+    subdirs = get_learn_dirs(config.get_pollen_types_binaries_dirs())
     filter_callback = get_filter(config.filter_rel_path)
     process_available_data(binaries_dirs=subdirs, filter_callback=filter_callback)
     logging.getLogger().info("Finished - scaler")

@@ -5,6 +5,21 @@ from src.common.config import ModelBuilderUnsupervisedConfig
 from src.common.tensorflow import InputModelNames
 
 
+LATENT_LAYER_NAME = "latent"
+
+
+def get_latent_layer(model):
+    try:
+        return model.get_layer(LATENT_LAYER_NAME)
+    except ValueError:
+        pass
+    # models saved before the layer was named: first layer after encoders concatenation
+    for idx, layer in enumerate(model.layers):
+        if isinstance(layer, tf.keras.layers.Concatenate):
+            return model.layers[idx + 1]
+    raise ValueError("Latent layer not found in the autoencoder model")
+
+
 def create_empty_lists(n):
     return [[] for _ in range(n)]
 
@@ -241,7 +256,9 @@ def create_model(config: ModelBuilderUnsupervisedConfig):
 
     merged = tf.keras.layers.Concatenate()(encoders)
 
-    latent_output = tf.keras.layers.Dense(16, activation="relu")(merged)
+    latent_output = tf.keras.layers.Dense(
+        16, activation="relu", name=LATENT_LAYER_NAME
+    )(merged)
 
     loss_weights = {}
     metrics = {

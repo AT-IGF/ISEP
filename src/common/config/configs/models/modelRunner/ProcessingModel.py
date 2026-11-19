@@ -6,15 +6,32 @@ from src.common import Consts
 
 @dataclass
 class ProcessingModel:
+    """Input file processing and output settings of model inference."""
+
     output_dir: str = "modelRunner/out"
-    file_dateformat_regex: str = "\d{4}\d{2}\d{2}\d{2}\d{2}"
+    """Save directory. Directory under which the output with 0 threshold will be saved (an input for the
+    predictions mapper), relative to the resources directory."""
+
+    file_dateformat_regex: str = r"\d{4}\d{2}\d{2}\d{2}\d{2}"
+    r"""Filename regex date. Regex representation of the date within the file name. For example, for the
+    file name ``D_001060749_202006160650`` the regex is ``\d{4}\d{2}\d{2}\d{2}\d{2}``. Every file name
+    has to contain exactly one match."""
+
     date_format_from_regex_mapping: str = "%Y%m%d%H%M"
+    r"""Filename regex date mapping. Python date format of the regex representation. For example, for
+    ``\d{4}\d{2}\d{2}\d{2}\d{2}`` the mapping is ``%Y%m%d%H%M``."""
+
     combined_files_filename: str | None = None
-    """
-    append processing results to one file, if not blank adds it by dates
-    """
+    """Output filename. Predictions of all dates are appended to a single file
+    ``tr_0_<combined_files_filename>.csv``. When not set, a separate file is created for each date."""
+
     add_batch_info_to_processed_file: bool = True
+    """Adds the save time of every batch as a comment line to the progress file."""
+
     threshold: float = 0.2
+    """Info threshold. Displays a live summary of the number of detected particles, i.e. particles whose
+    highest class probability reaches the threshold. Just informational: files are saved with threshold 0,
+    and the aggregated threshold is applied in the predictions mapper."""
 
     def get_output_dir(self) -> str:
         return PathHelper.get_absolute_path(

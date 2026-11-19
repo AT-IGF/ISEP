@@ -1,4 +1,5 @@
 import logging
+import os
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -114,6 +115,12 @@ class TemperatureScaler:
         return history
 
     def plot_temp_changes(self):
+        if len(self.t_history) == 0:
+            logging.getLogger().warning(
+                "Temperature history not found, plot skipped. To create it set 'calibration.overwrite_model' to true"
+            )
+            return
+        plt.figure()
         plt.plot(self.t_history)
         plt.title("Temperature Value During Training")
         plt.ylabel("Temperature")
@@ -251,6 +258,19 @@ class TemperatureScaler:
     def save_model(self, path):
         """Save calibrated model"""
         self.calibrated_model.save(path)
+        pd.DataFrame(self.t_history).to_csv(
+            self.get_temp_history_path(path), index=False
+        )
+
+    def load_temp_history(self, path):
+        # history is saved next to the calibrated model, so the plot works without recalibration
+        history_path = self.get_temp_history_path(path)
+        if os.path.isfile(history_path):
+            self.t_history = pd.read_csv(history_path).values.tolist()
+
+    @staticmethod
+    def get_temp_history_path(path):
+        return f"{os.path.splitext(path)[0]}_temperature_history.csv"
 
     def plot_probability_distributions(self, X_test, y_test, bins=15, alpha=0.6):
         """

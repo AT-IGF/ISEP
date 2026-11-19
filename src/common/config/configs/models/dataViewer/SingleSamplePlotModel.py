@@ -6,7 +6,11 @@ from src.common.config.configs.models.dataViewer.SingleSamplePlotModels.Boundari
 
 @dataclass()
 class SingleSamplePlotModel:
+    """Single particle plot of one modality."""
+
     show: bool = False
+    """Plot the modality of a single particle."""
+
     boundaries: BoundariesModel = field(default_factory=BoundariesModel)
 
     def is_within_range(self, value):

@@ -94,14 +94,12 @@ class TrainParametersWidget(QWidget):
         )
         buffer_size_mode = self.config.buffer_size_mode
         default_buffer_size = QLineEdit(str(Consts.BUFFER_SIZE_DEFAULT))
-        default_buffer_size.setStyleSheet(
-            """
+        default_buffer_size.setStyleSheet("""
             QLineEdit[readOnly="true"] {
                 background: #f0f0f0;
                 color: #606060;
             }
-        """
-        )
+        """)
         default_buffer_size.setProperty("readOnly", True)
         sub_apps = [
             aggregated.Radio(
@@ -138,7 +136,7 @@ class TrainParametersWidget(QWidget):
             signals,
             val_type=float,
             tooltip="Amount of probability assigned to other labels. Prevents model from being overconfident.\n\
-                                                     E.g. having three classes 'A', 'B' and 'C', if type is labeled as 'A' setting smotting at 0.1 will assign 0.05 probabilities to 'B' and 'C' and 0.9 to 'A'.",
+                                                     E.g. having three classes 'A', 'B' and 'C', if a sample is labeled as 'A', setting smoothing at 0.1 will assign 0.033 probability to 'B' and 'C' and 0.933 to 'A'",
             margins=(10, 10, 0, 0),
             bottom=0,
             top=1,
@@ -220,7 +218,6 @@ class TrainParametersWidget(QWidget):
     @property
     def value(self):
         if self.modify_training_defaults_widget.value == True:
-            self._value.run_training = True
             self._value.single_type_count = self.single_type_count_widget.value
             self._value.sampling_strategy = (
                 self.sampling_strategy_widget.selected_app.value
@@ -236,7 +233,6 @@ class TrainParametersWidget(QWidget):
             self._value.early_stopping = self.early_stopping_widget.value
             self._value.lr_reducer = self.lr_reducer_widget.value
         else:
-            self._value.run_training = False
             self._value = self.value_original
 
         return self._value

@@ -88,8 +88,12 @@ class PrecRecallSummary:
         FN = cm[1, 0]
         TP = cm[1, 1]
         # Calculates tpr and fpr
-        recall = TP / (TP + FN)  # sensitivity - true positive rate
-        precission = TP / (TP + FP)  # 1-specificity - false positive rate
+        recall = (
+            TP / (TP + FN) if TP + FN > 0 else np.nan
+        )  # sensitivity - true positive rate
+        precission = (
+            TP / (TP + FP) if TP + FP > 0 else np.nan
+        )  # 1-specificity - false positive rate
 
         return recall, precission
 
@@ -215,11 +219,13 @@ class PrecRecallSummary:
         self._logger.info("\n%s", df)
         threshold_mapping = json.dumps(
             df.set_index("label")["threshold"].to_dict(),
-            default=lambda x: x.tolist() if isinstance(x.tolist(), list) else [x.tolist()],
+            default=lambda x: (
+                x.tolist() if isinstance(x.tolist(), list) else [x.tolist()]
+            ),
         )
 
         self._logger.info(f"Threshold mapping: {threshold_mapping}")
-        
+
         if mode == self.F1_MODE:
             f1s_mean = np.mean(f1s, axis=0)
             plt.plot(
@@ -266,7 +272,10 @@ class PrecRecallSummary:
         plt.xlim(-0.05, 1.05)
         plt.ylim(-0.05, 1.05)
         plt.xlabel("Threshold")
-        plt.ylabel("Precission / Recall")
+        if mode == self.F1_MODE:
+            plt.ylabel("F1")
+        else:
+            plt.ylabel("Precission / Recall")
         plt.legend(
             loc="upper center", bbox_to_anchor=(0.5, -0.1), ncol=5, markerscale=2.5
         )

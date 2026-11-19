@@ -1,8 +1,0 @@
-common
-core
-dataViewer
-helpers
-modelBuilder
-modelRunner
-predictionsMapper
-ui

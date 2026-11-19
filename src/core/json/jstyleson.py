@@ -7,7 +7,7 @@ import json
 def dispose(json_str):
     """Clear all comments in json_str.
 
-    Clear JS-style comments like // and /**/ in json_str.
+    Clear JS-style comments like ``//`` and ``/**/`` in json_str.
     Accept a str or unicode as input.
 
     Args:

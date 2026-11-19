@@ -1,4 +1,3 @@
-from .PlotsModel import PlotsModel
 from .LifetimeModel import LifetimeModel
 from .HistogramModel import HistogramModel
 from .PlotCombinedModel import PlotCombinedModel

@@ -65,7 +65,7 @@ class SettigsWidget(QWidget):
 
         self.pollen_types_binaries_paths_widget = DirectoriesSelectorWidget(
             directories=self.config.train_parameters.pollen_types_binaries_paths,
-            label="Unlabeled samples directories:",
+            label="Samples directories. Every subdirectory of the given paths is read as a separate set of samples. With 'Dataset partially labeled' enabled, subdirectories named as one of ``pollen_types`` are treated as labeled, the remaining ones as unlabeled.:",
             signals=singals,
         )
 
@@ -96,7 +96,7 @@ class SettigsWidget(QWidget):
         self.with_labeled_samples_widget = MeasurementWidget(
             self.config.train_parameters.with_labeled_samples,
             label="Dataset partially labeled",
-            tooltip="When selected folders equally named as pollen types from 'General' will be used for comparison reasons",
+            tooltip="When selected, directories named as pollen types form General section are labeled and used for comparison in verification and clustering. Labels are not used in training.",
             value_changed=singals.value_changed,
             children=[self.pollen_types_check_widget],
             layout="Vertical",
@@ -235,7 +235,6 @@ class SettigsWidget(QWidget):
                     self._value.pollen_types = Config.get(TypesConfig).pollen_types
             else:
                 self._value.pollen_types = []
-                
 
             self._value.pollen_types_cache_rel_path = (
                 self.pollen_types_cache_dir_widget.value

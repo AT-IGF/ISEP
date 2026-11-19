@@ -56,10 +56,11 @@ def plot_hist(
         ax.axvline(x=custom, color="red")
     # print("5", bottom)
     # print("95", up)
-    ax.grid(True, axis='y', linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+    ax.grid(True, axis="y", linestyle="--", linewidth=0.6, alpha=0.4, color="gray")
     if show:
         plt_show(plt.gcf())
         plt.close()
+
 
 def plot_hist_plot(hist, vals, types, idx, ax, xlabel=None, ylabel=None):
     if hist.display_mode == hist.ONE_BY_ONE_MODE:
@@ -214,10 +215,12 @@ def plot_lifetime(lifetimes, types):
             if plot.q_min or plot.q_max:
                 quartiles_desc = plt.Line2D([], [], color="grey", linestyle="--")
                 handles.append(quartiles_desc)
-                labels.append(format_range(plot.q_min, plot.q_max, "percentile (dashed line)"))
+                labels.append(
+                    format_range(plot.q_min, plot.q_max, "percentile (dashed line)")
+                )
 
         plt.legend(handles, labels, ncol=plot.n_cols, markerscale=2)
-        plt.grid(True, linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+        plt.grid(True, linestyle="--", linewidth=0.6, alpha=0.4, color="gray")
         plt_show(plt.gcf())
 
 
@@ -286,7 +289,7 @@ def hist_spectras(spectas, types):
     laser_shots_range = np.arange(0, 3501, 500)
     for i in config.spectrum.channels:
         i = i - 1  # channels as first channel - 1 so enumeration decreased by 1
-        logger.info(f"Channel: {laser_shots_range[i]} ms")
+        logger.info(f"Channel: {laser_shots_range[i]} ns")
         xlabel = f"Fluorescence amplitude {laser_shots_range[i]} [AU]"
         ylabel = "Number of samples"
 
@@ -346,7 +349,7 @@ def plot_spectras(spectas, types):
     plot = config.spectrum.plot_combined
     for i in config.spectrum.channels:
         i = i - 1  # channels as first channel - 1 so enumeration decreased by 1
-        logger.info(f"Channel: {laser_shots_range[i]} ms")
+        logger.info(f"Channel: {laser_shots_range[i]} ns")
 
         for idx, particles_spectas in enumerate(spectas):
             if particles_spectas == []:
@@ -427,16 +430,20 @@ def plot_spectras(spectas, types):
             labels.append("Average (solid line)")
             if plot.q_min or plot.q_max:
                 handles.append(quartiles_desc)
-                labels.append(format_range(plot.q_min, plot.q_max, "percentile (dashed line)"))
+                labels.append(
+                    format_range(plot.q_min, plot.q_max, "percentile (dashed line)")
+                )
             plt.legend(handles, labels, ncol=plot.n_cols)
-            plt.grid(True, linestyle='--', linewidth=0.6, alpha=0.4, color='gray')
+            plt.grid(True, linestyle="--", linewidth=0.6, alpha=0.4, color="gray")
             plt_show(plt.gcf())
+
 
 def format_range(start, end, suffix=""):
     parts = [str(v) for v in (start, end) if v is not None]
     if not parts:
         return ""
     return " - ".join(parts) + (f" {suffix}" if suffix else "")
+
 
 def get_pollen_type_idx(pollen_types: list[str], pollenType):
     return pollen_types.index(pollenType)
@@ -544,7 +551,7 @@ def handle():
         single_type_count=config.single_type_count,
         test_model=None,
         should_append_callback=filter_callback,
-        pollen_types=config.pollen_types
+        pollen_types=config.pollen_types,
     )
 
     def loop(callback):
@@ -567,8 +574,7 @@ def handle():
             )
             if image_normalized is None:
                 return
-            if len(scatterings[pollen_idx]) < 4000:
-                scatterings[pollen_idx].append(image_normalized)
+            scatterings[pollen_idx].append(image_normalized)
 
         loop(lambda pollen_idx, raw_data: callback(pollen_idx, raw_data))
         hist_scatterings(scatterings, pollen_types_updated)
