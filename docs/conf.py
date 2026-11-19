@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).parent / "_ext"))
 project = "ISEP"
 author = "Artur Tomczak"
 copyright = "2023-2026, Artur Tomczak, University of Warsaw"
-release = "1.0.1"
+release = "1.1.0"
 root_doc = "index"
 language = "en"
 
