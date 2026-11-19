@@ -16,6 +16,8 @@ Full documentation available here: https://isep.readthedocs.io
 - <i>resources</i> - place for configuration files and data to process
 - <i>src</i> - codebase
 - <i>sample</i> - sample input fot the app, file converter to PKL file format
+- <i>docs</i> - documentation sources
+- <i>tests</i> - repository tests
 
 ## Requirements
 ### Hardware
@@ -23,7 +25,7 @@ Full documentation available here: https://isep.readthedocs.io
 
 ### Software
 > [!NOTE]
-> Note: For parallel GPU computing in tensorflow CUDA* is required. On windows tensorflow do not support CUDA, WSL2 is required - [install WSL2 guide](https://learn.microsoft.com/en-us/windows/wsl/install?utm_source=chatgpt.com). 
+> Note: For parallel GPU computing in tensorflow CUDA* is required. On windows tensorflow do not support CUDA, WSL2 is required - [install WSL2 guide](https://learn.microsoft.com/en-us/windows/wsl/install). 
 
 *For CUDA installation see - <i>[www.tensorflow.org](https://www.tensorflow.org/install/pip#step-by-step_instructions)</i> (before: [check](https://www.tensorflow.org/install/source#gpu)</i> tensorflow version compatibility)
 
@@ -49,8 +51,17 @@ pip install ISEP
 Run UI
 
 ```pwsh
-python -m src.ui.UI
+isep-ui
 ```
+
+Run separate python scipt tasks
+```python
+import isep
+
+isep.<task_name>()
+```
+examples of available tasks given in `sample/sample_flow.py`
+
 
 ## How to run (from source)
 1. Install [Requirements](#requirements)
@@ -69,7 +80,7 @@ python -m src.ui.UI
   - Run
 - Shell:
     ```bash
-    python -m src.ui.UI
+    isep-ui
     ```
 
 > [!NOTE]
