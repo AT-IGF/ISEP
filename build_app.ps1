@@ -4,17 +4,20 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$ENV_NAME = "myenv"
+$ENV_NAME = "isep-build"
 $OUTPUT_DIR = "dist-exe"
 $APP_NAME = "ISEP"
 
-# Activate conda environment
-Write-Host "Activating conda environment..." -ForegroundColor Cyan
-conda activate $ENV_NAME
+# Create conda environment
+Write-Host "Creating conda environment..." -ForegroundColor Cyan
+conda env remove -n $ENV_NAME -y
+conda create -n $ENV_NAME python=3.11 -y
+conda run --no-capture-output -n $ENV_NAME python -m pip install -r requirements.txt
 
 # Pack conda environment
 Write-Host "Packing conda environment..." -ForegroundColor Cyan
 conda pack -n $ENV_NAME -o python_env.tar.gz --force
+if ($LASTEXITCODE -ne 0) { throw "conda pack failed" }
 
 # Create distribution folder
 Write-Host "Creating distribution folder..." -ForegroundColor Cyan
@@ -96,6 +99,7 @@ Remove-Item $launcherPath
 
 # Cleanup
 Remove-Item python_env.tar.gz -Force
+conda env remove -n $ENV_NAME -y
 
 $totalSize = (Get-ChildItem "$OUTPUT_DIR" -Recurse | Measure-Object -Property Length -Sum).Sum / 1MB
 Write-Host "Done! Total distribution size: $([math]::Round($totalSize)) MB" -ForegroundColor Green

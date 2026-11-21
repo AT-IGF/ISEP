@@ -25,3 +25,4 @@ resources/modelBuilder/unsupervised/checkpoints/
 .venv-release/*
 docs/_build/
 ISEP.zip
+dist-exe/**
