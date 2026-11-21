@@ -198,7 +198,7 @@ def plot_data(config: DataViewerConfig, raw_data: list[RawData]):
     counter = Counter()
 
     logger.info(
-        f"Random pickup frequency is set to={config.rand_0_1_frequency}. Probability of plotting a particle after 'same_type_count' is reached: 0 - none, 1 - all."
+        f"Random pickup frequency is set to={config.rand_0_1_frequency}. 0 - every particle will be taken, 0.5 - every second."
     )
     logger.info(f"Same type particles to show count = {config.same_type_count}")
     for idx, temp_sample in enumerate(raw_data):
@@ -206,14 +206,7 @@ def plot_data(config: DataViewerConfig, raw_data: list[RawData]):
             logger.info(f"({idx}/{len(raw_data)}) proceeded")
 
         rand_num = random.uniform(0, 1)
-        if (
-            temp_sample.type in counter.keys()
-            and counter[temp_sample.type] >= config.same_type_count
-            and rand_num >= config.rand_0_1_frequency
-        ):
-            logger.debug(
-                f"Pollen type='{temp_sample.type}' max count={config.same_type_count} exceeded. Skipped"
-            )
+        if temp_sample.type in counter.keys() and rand_num < config.rand_0_1_frequency:
             continue
 
         scattering_normal = get_scattering_normalized(

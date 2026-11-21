@@ -28,7 +28,7 @@ class FilterWidget(QWidget):
             self._value != None,
             label="Filter path",
             tooltip="Path to the file that will be used for samples filtration.\
-                <br/><b>Default path with samples</b>: resources/common/filters\
+                <br/><b>Example filters are available in</b>: resources/common/filters\
                 <br/><b>Note</b>: for best match same filter should be used for both the scaler and trained model.",
             value_changed=singals.value_changed,
             children=[self.filter_rel_path_widget],

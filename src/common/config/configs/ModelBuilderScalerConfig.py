@@ -21,13 +21,14 @@ class ModelBuilderScalerConfig(ConfigModelBase):
     given paths is read and used for fitting the scaler."""
 
     rescale_existing_files: bool = False
-    """Rescale existing files. When the scaler is fitted, it creates scaled files. If new files are added,
-    the already scaled files can be rescaled with the updated scaler; otherwise only files that have not
-    been scaled yet are processed."""
+    """Rescale existing files. When the scaler is fitted, it creates scaled files. If new files are added
+    and this option is set to ``True``, the already scaled files are rescaled with the updated scaler;
+    otherwise only files that have not been scaled yet are processed."""
 
     scaler_save_path: str = "modelBuilder/scaler"
     """Scaler save path, relative to the resources directory. The scaler and the processed files are saved
-    in the subdirectory named after the selected filter."""
+    in the subdirectory named after the selected filter, e.g. ``base_cleanup``. When no filter is set,
+    they are saved in the ``raw`` subdirectory."""
 
     filter_rel_path: str | None = None
     """Filter path. Path to the file that will be used for samples filtration. Example filters are

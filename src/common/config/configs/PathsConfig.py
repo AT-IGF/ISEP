@@ -9,8 +9,8 @@ class PathsConfig(ConfigModelBase):
     """General paths shared by all ISEP modules."""
 
     zip_files_rel_path: str | None = None
-    """Zip files path. Path in which labeled pollen types are located, relative to the resources directory
-    unless it starts with ``/mnt``. It should contain sub-folders that will be treated as labels. Every
+    """Zip files path. Path in which labeled pollen types are located, relative to the resources directory.
+    It should contain sub-folders that will be treated as labels. Every
     sub-folder should contain binary measurements from the Rapid-E."""
 
     config_prop_name = "paths"

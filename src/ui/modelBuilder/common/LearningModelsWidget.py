@@ -32,7 +32,7 @@ class LearningModelsWidget(QWidget):
 
         tooltip_widget = IconLabel(
             "mdi.help-circle-outline",
-            tooltip="Model inputs used for training and further for prediction purposes. Size modality is calculated based on the scattering, no additional input is needed.",
+            tooltip="Model inputs used for training and for further prediction purposes. Size modality is calculated based on the scattering, no additional input is needed.",
             color="darkBlue",
             text=":",
         )

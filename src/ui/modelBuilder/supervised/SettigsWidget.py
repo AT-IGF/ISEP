@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
 
 
+import src.ui.common.types.HtmlEncoding as encoding
 from src.common.config import Config
 from src.common.config.configs import ModelBuilderConfig
 
@@ -41,6 +42,7 @@ class SettigsWidget(QWidget):
             pollen_types=self.config.excludeTypes,
             signals=singals,
             label="Pollen types to exclude",
+            tooltip="Types from the general configuration that are not used in the supervised training.",
             include_only=[
                 PollenTypesWidget.GENERAL_ALIGN_OPTION,
                 PollenTypesWidget.RESET_OPTION,
@@ -76,7 +78,7 @@ class SettigsWidget(QWidget):
             tooltip="Namespace under which cache files are created in cache dir. When another models are created samples will be taken from this namespace. \
                 Serves for comparison purposes between individual models.<br/><br/>\
                 Files in cache dir are created in following convention: "
-            + f'{"<namespace>_<pollen type>_test_reference_to_scale"}.{self.config.REFS_EXTENSION}',
+            + f"{encoding.LOWER}namespace{encoding.HIGHER}_{encoding.LOWER}pollen type{encoding.HIGHER}_test_reference_to_scale.{self.config.REFS_EXTENSION}",
             val_type=str,
             margins=(10, 10, 0, 0),
             requirements=["not_empty"],

@@ -42,7 +42,7 @@ class HistogramModel:
     """Custom line at. Draws a reference line at the given value."""
 
     display_mode: str = ALL_IN_ONE_MODE
-    """Display mode. Show a single plot with all pollen types or one plot per pollen type."""
+    """Display mode. Show a single plot with all pollen types or one plot per pollen type. Available options: ``ALL_IN_ONE``, ``ONE_BY_ONE``"""
 
     display_as_grid: bool = False
     """Display as grid. All plots in one window, next to each other."""

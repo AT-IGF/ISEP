@@ -12,6 +12,7 @@ class DimReducerModel:
     PCA_REDUCTOR = "pca"
 
     dim_reducer_to_use: None | str = None
+    """Dim reducer that will be used before clustering. Available options: ``umap``"""
 
     umap: UmapModel = field(
         default_factory=lambda: UmapModel(

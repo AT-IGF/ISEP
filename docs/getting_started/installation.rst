@@ -29,7 +29,7 @@ Installing with pip
 Installing from Source
 ----------------------
 
-Clone the ISEP repository and install it in editable mode, so that changes in the code take effect
+Clone the ISEP repository and install it in editable mode (requires `git <https://git-scm.com>`_ to be installed), so that changes in the code take effect
 without reinstalling:
 
 .. code-block:: bash

@@ -21,7 +21,7 @@ class AllParticlesAvgsConfig(ConfigModelBase):
     single_type_count: int = 10
     """Same type count. Number of the same type pollen particles. Note: the given value describes the
     number of samples before potential filtering. Too high values can cause an out of memory error,
-    especially for the scattering modality, where 10,000 samples per type require about 230 MB."""
+    especially for the scattering modality, where 10,000 samples per type require about 250 MB."""
 
     filter_path: str | None = None
     """Filter path. Path to the file that will be used for samples filtration. Example filters are

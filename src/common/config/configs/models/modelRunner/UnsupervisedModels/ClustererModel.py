@@ -13,6 +13,8 @@ class ClustererModel:
     KMEANS_CLUSTERER = "kmeans"
 
     clusterer_to_use: str | None = None
+    """Clustering method used to filter the samples classified by the supervised model. Available options: ``hdbscan``, ``knn``, ``mini_batch_kmeans``, ``kmeans``"""
+
     hdbscan: UnsupervisedBaseModel = field(
         default_factory=lambda: UnsupervisedBaseModel(
             path=None,

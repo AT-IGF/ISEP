@@ -65,7 +65,8 @@ class SettigsWidget(QWidget):
 
         self.pollen_types_binaries_paths_widget = DirectoriesSelectorWidget(
             directories=self.config.train_parameters.pollen_types_binaries_paths,
-            label="Samples directories. Every subdirectory of the given paths is read as a separate set of samples. With 'Dataset partially labeled' enabled, subdirectories named as one of ``pollen_types`` are treated as labeled, the remaining ones as unlabeled.:",
+            label="Unlabeled samples directories",
+            tooltip="Every subdirectory of the given paths is read as a separate set of samples. With 'Dataset partially labeled' enabled, subdirectories named as one of the selected pollen types are treated as labeled, the remaining ones as unlabeled.",
             signals=singals,
         )
 
