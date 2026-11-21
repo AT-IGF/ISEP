@@ -71,7 +71,9 @@ class SettigsWidget(QWidget):
             label="Same type count",
             value=self.config.same_type_count,
             singals=singals,
-            tooltip="Count of samples from the same type to be displayed.",
+            tooltip="Number of the same type pollen particles.<br>"
+            + "<b>Note</b>: the given value describes the number of samples before potential filtering.<br>"
+            + "<b>Note2</b>: too high values can cause an out of memory error, especially for the scattering modality, where 10,000 samples per type require about 250 MB.",
             val_type=int,
             margins=(10, 10, 0, 0),
             bottom=1,

@@ -55,8 +55,8 @@ supervised and unsupervised models.
    Keyword arguments: fields of :class:`~isep.configs.UnsupervisedTrainingConfig`, see :doc:`api/unsupervised_training_config`.
 
 
-Model Runner
-------------
+Predictions Runner
+------------------
 
 Functions for generating predictions using trained models.
 

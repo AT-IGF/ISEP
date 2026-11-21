@@ -1,6 +1,6 @@
 # ISEP - Integrated Solution for Environmental Pollen detection
 Library created for handling Rapid-E input files, designed for:
-- Data viewer - visualize the data as single sample or aggregated samples
+- Data viewer - visualise the data as single sample or aggregated samples
   - Single sample - characteristics for one sample at a time
   - Aggregated samples - characteristics for all samples across modality
 - Model builder - train and evaluate machine-learning models 
@@ -8,14 +8,14 @@ Library created for handling Rapid-E input files, designed for:
   - Supervised - train supervised convolutional neural network (CNN)
   - Unsupervised - train unsupervised convolutional autoencoder
 - Model runner - run trained model on real-world data
-- Predictions mapper - visualize model predictions
+- Predictions mapper - visualise model predictions
 
 Full documentation available here: https://isep.readthedocs.io
 
 ## Repository construction
 - <i>resources</i> - place for configuration files and data to process
 - <i>src</i> - codebase
-- <i>sample</i> - sample input fot the app, file converter to PKL file format
+- <i>sample</i> - sample input for the app, file converter to PKL file format
 - <i>docs</i> - documentation sources
 - <i>tests</i> - repository tests
 
@@ -36,7 +36,7 @@ Full documentation available here: https://isep.readthedocs.io
 - pip (python package installer) - installed with python
 
 
-Rest of required packages is given in <i>requirements.txt</i> and will be installed automativally via pip install (next step).
+Rest of required packages is given in <i>requirements.txt</i> and will be installed automatically via pip install (next step).
 
 #### <span style="color: lightblue">*Running compiled executable (.exe)*</span>
 runs standalone, no additional installation required
@@ -54,7 +54,7 @@ Run UI
 isep-ui
 ```
 
-Run separate python scipt tasks
+Run separate python script tasks
 ```python
 import isep
 

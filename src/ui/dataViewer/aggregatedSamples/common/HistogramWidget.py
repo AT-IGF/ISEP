@@ -39,7 +39,7 @@ class HistogramWidget(QWidget):
         self.as_grid_widget = MeasurementWidget(
             config.display_as_grid,
             label="Display as grid",
-            tooltip="All plots in one window but next to each other",
+            tooltip="All plots in one window, next to each other",
             value_changed=singals.value_changed,
             children=[],
             layout="Vertical",
@@ -49,7 +49,7 @@ class HistogramWidget(QWidget):
         self.share_y_grid_widget = MeasurementWidget(
             config.share_y_grid,
             label="Share y",
-            tooltip="Plot y value common between the plots",
+            tooltip="Common y axis for all plots in the grid",
             value_changed=singals.value_changed,
             children=[],
             layout="Vertical",
@@ -223,11 +223,12 @@ class HistogramWidget(QWidget):
                 pointer_widgets,
                 self.histogram_widget.is_checked()
                 and (
-                self.display_mode_widget.selected_app.value
-                == HistogramModel.ONE_BY_ONE_MODE
-                or self.display_mode_widget.selected_app.value
-                == HistogramModel.ALL_IN_ONE_MODE
-                and self.as_grid_widget.value == True),
+                    self.display_mode_widget.selected_app.value
+                    == HistogramModel.ONE_BY_ONE_MODE
+                    or self.display_mode_widget.selected_app.value
+                    == HistogramModel.ALL_IN_ONE_MODE
+                    and self.as_grid_widget.value == True
+                ),
             )
         )
 

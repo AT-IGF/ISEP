@@ -125,7 +125,7 @@ class TrainParametersWidget(QWidget):
             sub_apps=sub_apps,
             value_changed=self.value_changed,
             label="Buffer size mode:",
-            tooltip="How many samples is trained at once. To high samples count can cause out of memory exception, however it allows to achieve best accuracies. Lower buffer sizes saves memory by loading only data chunks for training.",
+            tooltip="How many samples are loaded into memory and shuffled during training. Too high samples count can cause an out of memory exception, however it allows to achieve the best accuracies. Lower buffer sizes save memory by loading only data chunks for training. When not set, the default buffer size of 50000 is used.",
             layout="Horizontal",
             margins=(10, 5, 0, 0),
             sub_widgets_layout="Inline",

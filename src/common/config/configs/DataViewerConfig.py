@@ -36,8 +36,7 @@ class DataViewerConfig(ConfigModelBase):
     option."""
 
     rand_0_1_frequency: float = 0
-    """Random frequency. Probability of plotting a particle after ``same_type_count`` is reached:
-    ``0`` plots none, ``1`` plots all."""
+    """Random frequency. If ``0`` every particle will be taken. If ``0.5`` every second."""
 
     pollen_types_to_show: list[str] = field(default_factory=list)
     """Pollen types whose particles are plotted."""

@@ -26,7 +26,7 @@ Single sample taks allows users to visualize individual particles. By default, t
 * Florescence lifetime
 * Fluorescence spectrum 
 
-These modalities are configured in ``SingleSampleConfig`` through the `scattering_plot`, `lifetime_plot`, and `spectrum_plot`. Each configuration allows users to control whether plot the plot should be displayed using the  `show` option and specify cutoff boundaries to exclude partcles outside the selected range.
+These modalities are configured in ``SingleSampleConfig`` through the `scattering_plot`, `lifetime_plot`, and `spectrum_plot`. Each configuration allows users to control whether the plot should be displayed using the  `show` option and specify cutoff boundaries to exclude particles outside the selected range.
 
 The following example displays the scattering plot and saves the output to the dataViewer/out directory.
 

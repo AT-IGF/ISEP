@@ -51,7 +51,7 @@ Below is presented sample block of code that allows to train supervised model. I
         )
     )
 
-Running the task prodcues output log file showing also live steam in the console. It shows all te necessary progress steps like summary of the trained model architescutre, all of the setup and progress training. Such file logs allows to eaisly navigate between past trainings.
+Running the task produces output log file showing also live stream in the console. It shows all the necessary progress steps like summary of the trained model architecture, all of the setup and training progress. Such file logs allows to easily navigate between past trainings.
 
 .. code-block:: text
    :class: scrollable-code
@@ -70,11 +70,6 @@ Running the task prodcues output log file showing also live steam in the console
    2026-11-11 10:08:26,068 | INFO | (1/2) Cached pollen types file found. Skipping. Path=<root>\ISEP\resources\supervised\cache\model_1_Alnus_train.tfrecord
    2026-11-11 10:08:26,069 | INFO | (2/2) Cached pollen types file found. Skipping. Path=<root>\ISEP\resources\supervised\cache\model_1_ArrhinateRum_train.tfrecord
    2026-11-11 10:08:26,073 | INFO | Input modalities: ['spectrum_unsup', 'lifetime_unsup', 'scattering_unsup', 'size']
-   z:\Miniconda3\envs\myenv\Lib\site-packages\keras\src\layers\convolutional\base_conv.py:107: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
-   super().__init__(activity_regularizer=activity_regularizer, **kwargs)
-   2026-11-11 10:08:26.080447: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-   To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-   z:\Miniconda3\envs\myenv\Lib\site-packages\keras\src\layers\core\dense.py:87: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
    super().__init__(activity_regularizer=activity_regularizer, **kwargs)
    2026-11-11 10:08:26,267 | INFO | Smoothing: 0.1, Learning rate=0.001, Weight decay=0.001
    Model: "functional_4"
@@ -119,45 +114,25 @@ Running the task prodcues output log file showing also live steam in the console
    Total params: 122,546 (478.70 KB)
    Trainable params: 122,146 (477.13 KB)
    Non-trainable params: 400 (1.56 KB)
-   2026-11-11 10:08:26.603633: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 10:08:26,617 | INFO | Total samples to train: 59
    2026-11-11 10:08:26,617 | INFO | Sampling strategy: OVERSAMPLE
    2026-11-11 10:08:26,617 | INFO | Class weights: {1: 1, 0: 1}
    2026-11-11 10:08:26,653 | INFO | Buffer size mode is set to ALL_SAMPLES, new buffer_size=59.
-   2026-11-11 10:08:26,654 | INFO | Buffer size overridden to buffer_size=59. To high values can cause out of memory error.
-   0 2 <root>\ISEP\resources\supervised\cache\model_1_Alnus_validation.tfrecord
-   2026-11-11 10:08:26.680506: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-   2026-11-11 10:08:26.707410: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-   1 2 <root>\ISEP\resources\supervised\cache\model_1_ArrhinateRum_validation.tfrecord
-   2026-11-11 10:08:26.741084: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-   2026-11-11 10:08:26.766658: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 10:08:26,776 | INFO | Total count for validation set count=13
    2026-11-11 10:08:26,826 | INFO | --------------------------------------------
    2026-11-11 10:08:26,826 | INFO | Epoch 1/5
-   2026-11-11 10:08:31.485280: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-            [[{{node IteratorGetNext}}]]
-   z:\Miniconda3\envs\myenv\Lib\site-packages\keras\src\trainers\epoch_iterator.py:151: UserWarning: Your input ran out of data; interrupting training. Make sure that your dataset or generator can generate at least `steps_per_epoch * epochs` batches. You may need to use the `.repeat()` function when building your dataset.
-   self._interrupted_warning()
    2026-11-11 10:08:31,495 | INFO | 1/5 FINISHED - accuracy=0.5254 loss=0.7051 val_accuracy=0.5385 val_loss=0.6927
    2026-11-11 10:08:31,518 | INFO | --------------------------------------------
    2026-11-11 10:08:31,518 | INFO | Epoch 2/5
-   2026-11-11 10:08:31.571978: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-            [[{{node IteratorGetNext}}]]
    2026-11-11 10:08:31,579 | INFO | 2/5 FINISHED - accuracy=0.4915 loss=0.7050 val_accuracy=0.5385 val_loss=0.6918
    2026-11-11 10:08:31,582 | INFO | --------------------------------------------
    2026-11-11 10:08:31,583 | INFO | Epoch 3/5
-   2026-11-11 10:08:31.633109: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-            [[{{node IteratorGetNext}}]]
    2026-11-11 10:08:31,640 | INFO | 3/5 FINISHED - accuracy=0.4915 loss=0.6727 val_accuracy=0.5385 val_loss=0.6910
    2026-11-11 10:08:31,641 | INFO | --------------------------------------------
    2026-11-11 10:08:31,641 | INFO | Epoch 4/5
-   2026-11-11 10:08:31.693792: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-            [[{{node IteratorGetNext}}]]
    2026-11-11 10:08:31,700 | INFO | 4/5 FINISHED - accuracy=0.5424 loss=0.6711 val_accuracy=0.5385 val_loss=0.6905
    2026-11-11 10:08:31,702 | INFO | --------------------------------------------
    2026-11-11 10:08:31,703 | INFO | Epoch 5/5
-   2026-11-11 10:08:31.750306: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
-            [[{{node IteratorGetNext}}]]
    2026-11-11 10:08:31,757 | INFO | 5/5 FINISHED - accuracy=0.5085 loss=0.6828 val_accuracy=0.5385 val_loss=0.6902
    2026-11-11 10:08:31,818 | INFO | Saving trained model under path: <root>\ISEP\resources\modelBuilder\model_1_model.h5
    2026-11-11 10:08:31,818 | WARNING | You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
@@ -297,8 +272,7 @@ Additionally, the ``summaries.diff_model_name`` option allows users to compare t
    INFO:root:F1: 74.98%
    INFO:root:ROC AUC score: 93.88%
    INFO:root:Diff (another) model found, path='<root>/ISEP/resources/modelBuilder/isep_demo_model.h5'
-   2026-11-11 12:19:26,110 | WARNING | Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
-   WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+
    134/134 ━━━━━━━━━━━━━━━━━━━━ 1s 7ms/step   
    2026-11-11 12:19:27,563 | INFO | --- Diff model model summary - no threshold ---
    2026-11-11 12:19:27,567 | INFO | Precission: 75.54%, diff=-0.51%
@@ -467,7 +441,6 @@ As with supervised training, the output is written to a log file and streamed to
 
    2026-11-11 13:30:30,356 | INFO | Loss weights adapted: spectrum_unsup_decoder: 0.00390625, lifetime_unsup_decoder: 0.00390625, scattering_unsup_decoder: 0.00034722222222222224, size_decoder: 1e-06
    2026-11-11 13:30:30,357 | INFO | Calculating total training samples count
-   2026-11-11 13:30:30.634485: W tensorflow/core/framework/local_rendezvous.cc:404] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
    2026-11-11 13:30:30,649 | INFO | Total samples to train: 68
    2026-11-11 13:30:30,649 | WARNING | Verification for .tfrecord not implemented
    0 2 <root>\ISEP\resources\unsupervised\cache\raw\Alnus.tfrecord
@@ -609,7 +582,7 @@ The following example reduces the latent space with UMAP and clusters the result
         )
     )
 
-The following example shows clustering of a previously trained autoencoder (training and verification disabled) on 10 unlabeled field measurements and one labeled Alnus sample. Cached latent vectors and the fitted UMAP model are reused, and HDBSCAN is run on the UMAP embeddings. The resulting clusters are presented in
+The following example shows clustering of a previously trained autoencoder (training and verification disabled) on 10 unlabeled field measurements and one labeled Alnus sample. Cached latent vectors and the fitted UMAP model are reused, and HDBSCAN is run on the UMAP embeddings. The resulting clusters are presented in figure below.
 
 .. figure:: ../_static/images/python_guide/model_training/hdbscan_unsup_cluster.png
    :width: 80%

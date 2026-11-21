@@ -6,7 +6,7 @@ Predictions mapper summarizes particle predictions saved during :doc:`model infe
 Input
 -----
 
-The predictions file is given in ``file_to_process_rel_path``, relative to the *resources* directory, e.g. the combined file produced by inference. Each particle is assigned to the class with the highest probability, as long as the probability reaches the threshold. A single threshold for all classes is set with ``thresholds.threshold``. Alternatively, with ``thresholds.threshold_type`` set to ``CLASS_THRESHOLD``, a separate threshold for every class is read from the JSON file given in ``thresholds.per_type_thresholds_path``, e.g. ``{"Alnus": 0.6, "Corylus": 0.5}``.
+The predictions file is given in ``file_to_process_rel_path``, relative to the *resources* directory, e.g. the combined file produced by inference. Each particle is assigned to the class with the highest probability, as long as the probability reaches the threshold. A single threshold for all classes is set with ``thresholds.threshold`` property. Alternatively, with ``thresholds.threshold_type`` set to ``CLASS_THRESHOLD``, a separate threshold for every class is read from the JSON file given in ``thresholds.per_type_thresholds_path``, e.g. ``{"Alnus": 0.6, "Corylus": 0.5}``.
 
 Particles are summed within time spans defined by ``split_timespan.days``, ``hours``, ``minutes`` and ``seconds`` (7 days by default). The processed period can be limited with ``split_timespan.range_from`` and ``split_timespan.range_to``. Duplicated timestamps are removed before summing.
 

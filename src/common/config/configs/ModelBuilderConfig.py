@@ -26,6 +26,9 @@ class ModelBuilderConfig(ConfigModelBase):
     model_save_name: str = "hello_world"
     """Train model name. The model is saved as ``<model_save_name>_model.h5``."""
 
+    run_training: bool = True
+    """Run training."""
+
     test_model_name: str | None = "hello_world_test_model"
     """Cache files namespace, stored as ``<namespace>_test_model``. Namespace under which cache files are
     created in cache dir. When another models are created samples will be taken from this namespace.
@@ -33,19 +36,17 @@ class ModelBuilderConfig(ConfigModelBase):
     following convention: ``<namespace>_<pollen type>_test_reference_to_scale.tfrecord``."""
 
     excludeTypes: list[str] = field(default_factory=list)
-    """Pollen types to exclude."""
+    """Pollen types to exclude. Types from the general configuration (``TypesConfig.pollen_types``) that
+    are not used in the supervised training."""
 
     learningModels: list[str] = field(
         default_factory=lambda: list(InputModelNames.TRAIN_MODELS)
     )
-    """Input modalities. Model inputs used for training and further for prediction purposes. Size modality
+    """Input modalities. Model inputs used for training and for further prediction purposes. Size modality
     is calculated based on the scattering, no additional input is needed."""
 
     pollen_types_cache_rel_path: str | None = "supervised/cache"
     """Processed files cache dir. Place in which train, test, validation sets will be saved."""
-
-    run_training: bool = True
-    """Run training."""
 
     filter_rel_path: str | None = None
     """Filter path. Path to the file that will be used for samples filtration. Example filters are

@@ -46,7 +46,9 @@ class SettigsWidget(QWidget):
         )
         self.single_type_count_widget = LabelValueWidget(
             label="Same type count",
-            tooltip="Number of the same type pollen particles.<br/><b>Note</b>: Given value describes number of samples before potential filtering.",
+            tooltip="Number of the same type pollen particles.<br>"
+            + "<b>Note</b>: the given value describes the number of samples before potential filtering.<br>"
+            + "<b>Note2</b>: too high values can cause an out of memory error, especially for the scattering modality, where 10,000 samples per type require about 250 MB.",
             value=config.single_type_count,
             singals=singals,
             val_type=int | None,

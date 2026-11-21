@@ -1,3 +1,5 @@
+import types
+import typing
 from dataclasses import MISSING, fields, is_dataclass
 from sphinx.ext.autodoc import ClassDocumenter
 from sphinx.pycode import ModuleAnalyzer
@@ -30,12 +32,24 @@ def default_of(f):
     return "required" if default is None else f"optional (default={default})"
 
 
+def type_name(tp):
+    args = typing.get_args(tp)
+    if isinstance(tp, types.UnionType) or typing.get_origin(tp) is typing.Union:
+        return " | ".join(type_name(arg) for arg in args)
+    if args:
+        origin = typing.get_origin(tp)
+        return f"{origin.__name__}[{', '.join(type_name(arg) for arg in args)}]"
+    if tp is type(None):
+        return "None"
+    return getattr(tp, "__name__", str(tp))
+
+
 def summary_of(tp):
-    """First line of a dataclass docstring, used for nested config fields."""
+    tp = next((arg for arg in typing.get_args(tp) if is_dataclass(arg)), tp)
     doc = tp.__doc__ if is_dataclass(tp) else None
     if not doc or doc.startswith(f"{tp.__name__}("):
         return ""
-    return doc.strip().splitlines()[0]
+    return " ".join(doc.strip().split("\n\n")[0].split())
 
 
 def add_parameters(app, what, name, obj, options, lines):
@@ -50,12 +64,10 @@ def add_parameters(app, what, name, obj, options, lines):
         doc = " ".join(field_docs.get((obj.__qualname__, f.name), [])) or summary_of(
             f.type
         )
-        type_name = getattr(f.type, "__name__", str(f.type))
-
         lines += [
             ".. container:: isep-param-name",
             "",
-            f"   **{f.name}** : {type_name}, {default_of(f)}",
+            f"   **{f.name}** : {type_name(f.type)}, {default_of(f)}",
             "",
         ]
         if doc:

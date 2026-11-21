@@ -66,7 +66,6 @@ Files with the ``tr_0_`` prefix hold the predictions, ``PROCESSED_`` files list 
    2026-11-14 11:25:35,709 - root - INFO - Started - model runner
    2026-11-14 11:25:35,710 - root - INFO - Predictions threshold=0.2 (any pred for given particle above)
    2026-11-14 11:25:35,710 - root - INFO - Output dir=<root>/ISEP/resources/modelRunner/out/processed
-   2026-11-14 11:25:37,903 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
    2026-11-14 11:25:37,921 - root - INFO - Running model: <root>/ISEP/resources/modelBuilder/isep_demo_model.h5
    2026-11-14 11:25:37,931 - root - INFO - Progress count restored form path=<root>/ISEP/resources/modelRunner/out/processed/SUMMARY_demo3_tr_0.2_1.csv
    2026-11-14 11:25:37,932 - root - INFO - Particles: identified_tr_0.2=5215, identified_tr_0=5215, total=5215

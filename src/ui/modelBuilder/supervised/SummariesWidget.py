@@ -104,7 +104,7 @@ class SummariesWidget(QWidget):
         self.summaries_widget = MeasurementWidget(
             self.config.summaries.run_summaries,
             label="Run summaries",
-            tooltip="Trained model efficiency on the test set.",
+            tooltip="Trained model performance on the test set.",
             value_changed=self.run_summeries_value_changed,
             children=[
                 self.model_summary_banner_widget,
